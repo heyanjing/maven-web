@@ -1,0 +1,55 @@
+  @NotNull			注解元素必须是非空
+  @Null				注解元素必须是空
+  @Digits			验证数字构成是否合法
+  @Future			验证是否在当前系统时间之后
+  @Past				验证是否在当前系统时间之前
+  @Max				验证值是否小于等于最大指定整数值
+  @Min				验证值是否大于等于最小指定整数值
+  @Pattern			验证字符串是否匹配指定的正则表达式
+  @Size				验证元素大小是否在指定范围内
+  @DecimalMax	验证值是否小于等于最大指定小数值
+  @DecimalMin	验证值是否大于等于最小指定小数值
+  @AssertTrue		被注释的元素必须为true
+  @AssertFalse	被注释的元素必须为false
+  
+  @Email			被注释的元素必须是电子邮箱地址
+  @Length			被注释的字符串的大小必须在指定的范围内
+  @NotEmpty		被注释的字符串的必须非空
+  @Range			被注释的元素必须在合适的范围内
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  Annotation 作用Hibernatemetadataimpact
+@AssertFalse 被注解的元素必须为false
+@AssertTrue 被注解的元素必须为false
+@DecimalMax(value) 被注解的元素必须为一个数字，其值必须小于等于指定的最小值
+@DecimalMin(Value) 被注解的元素必须为一个数字，其值必须大于等于指定的最小值
+@Digits(integer=, fraction=) 被注解的元素必须为一个数字，其值必须在可接受的范围内
+@Future 被注解的元素必须是日期，检查给定的日期是否比现在晚.
+@Max(value) 被注解的元素必须为一个数字，其值必须小于等于指定的最小值,检查该值是否小于或等于约束条件中指定的最大值. 会给对应的数据库表字段添加一个check的约束条件.
+@Min 被注解的元素必须为一个数字，其值必须大于等于指定的最小值,检查该值是否大于或等于约束条件中规定的最小值. 会给对应的数据库表字段添加一个check的约束条件.
+@NotNull 被注解的元素必须不为null
+@Null 被注解的元素必须为null
+@Past(java.util.Date/Calendar); 被注解的元素必须过去的日期，检查标注对象中的值表示的日期比当前早.
+@Pattern(regex=, flag=) 被注解的元素必须符合正则表达式，检查该字符串是否能够在match指定的情况下被regex定义的正则表达式匹配.
+@Size(min=, max=) 被注解的元素必须在制定的范围(数据类型:String, Collection, Map and arrays)
+@Valid 递归的对关联对象进行校验, 如果关联对象是个集合或者数组, 那么对其中的元素进行递归校验,如果是一个map,则对其中的值部分进行校验.
+@CreditCardNumber 对信用卡号进行一个大致的验证
+@Email 被注释的元素必须是电子油箱地址
+@Length(min=, max=) 被注解的对象必须是字符串的大小必须在制定的范围内。
+@NotBlank 被注解的对象必须为字符串，不能为空，检查时会将空格忽略
+@NotEmpty 被注释的对象必须为空(数据:String,Collection,Map,arrays)
+@Range(min=, max=) 被注释的元素必须在合适的范围内 (数据：BigDecimal, BigInteger, String, byte, short, int, long and 原始类型的包装类 )
+@SafeHtml(whitelistType=, additionalTags=)被注解的元素检查是否标注值包含恶意的片段如
+@ScriptAssert(lang=, script=, alias=) 任何类型,要使用这个约束条件,必须先要保证Java Scripting API 即JSR 223 ("Scripting for the JavaTM Platform")的实现在类路径当中. 如果使用的时Java 6的话,则不是问题, 如果是老版本的话, 那么需要把 JSR 223的实现添加进类路径. 这个约束条件中的表达式可以使用任何兼容JSR 223的脚本来编写. (更多信息请参考javadoc)
+@URL(protocol=, host=, port=, regexp=, flags=) 被注解的对象必须是字符串，检查是否是一个有效的URL，如果提供了protocol，host等，则该URL还需满足提供的条件

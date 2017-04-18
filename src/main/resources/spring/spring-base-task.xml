@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task" xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!--
+			开启5个线程池给注解用
+			默认只有一个线程，当多个任务同时执行时，只能一个一个的执行
+			多个线程时.每个任务使用一个线程	
+			TaskOne
+			TaskTwo
+	<task:scheduler id="task" pool-size="5" />
+	<task:annotation-driven scheduler="task" />
+	 -->
+<!-- 	<task:annotation-driven /> -->
+</beans>

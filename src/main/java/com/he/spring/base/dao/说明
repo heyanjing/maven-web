@@ -1,0 +1,6 @@
+BaseRepo 
+	dao层接口继承该接口拥有spring-data的功能
+BaseHibernateDao
+	自定义dao的实现类继承该类拥有hibernate功能
+BaseJdbcDao
+	自定义dao的实现类继承该类拥有jdbc功能

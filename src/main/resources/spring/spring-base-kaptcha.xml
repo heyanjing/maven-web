@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!--
+	
+	不配置该文件时kaptcha有默认值,当有其他需求是配置该文件的对应值
+	
+	-->
+	
+	<!-- 
+	kaptcha.border 						 是否有边框  默认为true  我们可以自己设置yes，no  
+	kaptcha.border.color   				边框颜色   默认为Color.BLACK  
+	kaptcha.border.thickness 			 边框粗细度  默认为1  
+	kaptcha.producer.impl  				 验证码生成器  默认为DefaultKaptcha  
+	kaptcha.textproducer.impl  				 验证码文本生成器  默认为DefaultTextCreator  
+	kaptcha.textproducer.char.string   验证码文本字符内容范围  默认为abcde2345678gfynmnpwx  
+	kaptcha.textproducer.char.length   验证码文本字符长度  默认为5  
+	kaptcha.textproducer.font.names    验证码文本字体样式  默认为new Font("Arial", 1, fontSize), new Font("Courier", 1, fontSize)  
+	kaptcha.textproducer.font.size   	验证码文本字符大小  默认为40  
+	kaptcha.textproducer.font.color  	验证码文本字符颜色  默认为Color.BLACK  
+	kaptcha.textproducer.char.space 	 验证码文本字符间距  默认为2  
+	kaptcha.noise.impl   				 验证码噪点生成对象  默认为DefaultNoise  
+	kaptcha.noise.color  				 验证码噪点颜色   默认为Color.BLACK  
+	kaptcha.obscurificator.impl 			  验证码样式引擎  默认为WaterRipple  
+	kaptcha.word.impl  					 验证码文本字符渲染   默认为DefaultWordRenderer  
+	kaptcha.background.impl  			 验证码背景生成器   默认为DefaultBackground  
+	kaptcha.background.clear.from  		 验证码背景颜色渐进   默认为Color.LIGHT_GRAY  
+	kaptcha.background.clear.to   			验证码背景颜色渐进   默认为Color.WHITE  
+	kaptcha.image.width  					 验证码图片宽度  默认为200  
+	kaptcha.image.height  				验证码图片高度  默认为50
+	
+	 <init-param>
+            <description>图片边框，合法值：yes , no</description>
+            <param-name>kaptcha.border</param-name>
+            <param-value>yes</param-value>
+        </init-param>
+        <init-param>
+            <description>
+                边框颜色，合法值： r,g,b (and optional alpha) 或者
+                white,black,blue.
+            </description>
+            <param-name>kaptcha.border.color</param-name>
+            <param-value>black</param-value>
+        </init-param>
+        <init-param>
+            <description>边框厚度，合法值：>0</description>
+            <param-name>kaptcha.border.thickness</param-name>
+            <param-value>1</param-value>
+        </init-param>
+        <init-param>
+            <description>图片宽 200</description>
+            <param-name>kaptcha.image.width</param-name>
+            <param-value>200</param-value>
+        </init-param>
+        <init-param>
+            <description>图片高 50</description>
+            <param-name>kaptcha.image.height</param-name>
+            <param-value>50</param-value>
+        </init-param>
+        <init-param>
+            <description>图片实现类</description>
+            <param-name>kaptcha.producer.impl</param-name>
+            <param-value>
+                com.google.code.kaptcha.impl.DefaultKaptcha
+            </param-value>
+        </init-param>
+        <init-param>
+            <description>文本实现类</description>
+            <param-name>kaptcha.textproducer.impl</param-name>
+            <param-value>
+                com.google.code.kaptcha.text.impl.DefaultTextCreator
+            </param-value>
+        </init-param>
+        <init-param>
+            <description>文本集合，验证码值从此集合中获取</description>
+            <param-name>kaptcha.textproducer.char.string</param-name>
+            <param-value>1234567890</param-value>
+        </init-param>
+        <init-param>
+            <description>验证码长度 5</description>
+            <param-name>kaptcha.textproducer.char.length</param-name>
+            <param-value>2</param-value>
+        </init-param>
+        <init-param>
+            <description>字体 Arial, Courier</description>
+            <param-name>kaptcha.textproducer.font.names</param-name>
+            <param-value>Arial, Courier</param-value>
+        </init-param>
+        <init-param>
+            <description>字体大小 40px.</description>
+            <param-name>kaptcha.textproducer.font.size</param-name>
+            <param-value>40</param-value>
+        </init-param>
+        <init-param>
+            <description>
+                字体颜色，合法值： r,g,b 或者 white,black,blue.
+            </description>
+            <param-name>kaptcha.textproducer.font.color</param-name>
+            <param-value>black</param-value>
+        </init-param>
+        <init-param>
+            <description>文字间隔 2</description>
+            <param-name>kaptcha.textproducer.char.space</param-name>
+            <param-value>2</param-value>
+        </init-param>
+        <init-param>
+            <description>干扰实现类</description>
+            <param-name>kaptcha.noise.impl</param-name>
+            <param-value>
+                com.google.code.kaptcha.impl.DefaultNoise
+            </param-value>
+        </init-param>
+        <init-param>
+            <description>
+                干扰颜色，合法值： r,g,b 或者 white,black,blue.
+            </description>
+            <param-name>kaptcha.noise.color</param-name>
+            <param-value>black</param-value>
+        </init-param>
+        <init-param>
+            <description>
+                图片样式： 水纹com.google.code.kaptcha.impl.WaterRipple
+                鱼眼com.google.code.kaptcha.impl.FishEyeGimpy
+                阴影com.google.code.kaptcha.impl.ShadowGimpy
+            </description>
+            <param-name>kaptcha.obscurificator.impl</param-name>
+            <param-value>
+                com.google.code.kaptcha.impl.WaterRipple
+            </param-value>
+        </init-param>
+        <init-param>
+            <description>背景实现类</description>
+            <param-name>kaptcha.background.impl</param-name>
+            <param-value>
+                com.google.code.kaptcha.impl.DefaultBackground
+            </param-value>
+        </init-param>
+        <init-param>
+            <description>背景颜色渐变，开始颜色</description>
+            <param-name>kaptcha.background.clear.from</param-name>
+            <param-value>green</param-value>
+        </init-param>
+        <init-param>
+            <description>背景颜色渐变，结束颜色</description>
+            <param-name>kaptcha.background.clear.to</param-name>
+            <param-value>white</param-value>
+        </init-param>
+        <init-param>
+            <description>文字渲染器</description>
+            <param-name>kaptcha.word.impl</param-name>
+            <param-value>
+                com.google.code.kaptcha.text.impl.DefaultWordRenderer
+            </param-value>
+        </init-param>
+        <init-param>
+            <description>
+                session中存放验证码的key键
+            </description>
+            <param-name>kaptcha.session.key</param-name>
+            <param-value>KAPTCHA_SESSION_KEY</param-value>
+        </init-param>
+        <init-param>
+            <description>
+                The date the kaptcha is generated is put into the
+                HttpSession. This is the key value for that item in the
+                session.
+            </description>
+            <param-name>kaptcha.session.date</param-name>
+            <param-value>KAPTCHA_SESSION_DATE</param-value>
+        </init-param>
+	  
+	
+	<bean id="captcha" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<prop key="kaptcha.border 					">yes</prop>
+						<prop key="kaptcha.border.color   			">yes</prop>
+						<prop key="kaptcha.border.thickness 		">yes</prop>
+						<prop key="kaptcha.producer.impl  			">yes</prop>
+						<prop key="kaptcha.textproducer.impl  		">yes</prop>
+						<prop key="kaptcha.textproducer.char.string">yes</prop>
+						<prop key="kaptcha.textproducer.char.length">yes</prop>
+						<prop key="kaptcha.textproducer.font.names ">yes</prop>
+						<prop key="kaptcha.textproducer.font.size  ">yes</prop>
+						<prop key="kaptcha.textproducer.font.color ">yes</prop>
+						<prop key="kaptcha.textproducer.char.space ">yes</prop>
+						<prop key="kaptcha.noise.impl   			">yes</prop>
+						<prop key="kaptcha.noise.color  			">yes</prop>
+						<prop key="kaptcha.obscurificator.impl 	">yes</prop>
+						<prop key="kaptcha.word.impl  				">yes</prop>
+						<prop key="kaptcha.background.impl  		">yes</prop>
+						<prop key="kaptcha.background.clear.from  	">yes</prop>
+						<prop key="kaptcha.background.clear.to   	">yes</prop>
+						<prop key="kaptcha.image.width  			">yes</prop>
+						<prop key="kaptcha.image.height  			">yes</prop>
+					</props>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+-->
+</beans>

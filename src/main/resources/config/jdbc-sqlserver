@@ -1,0 +1,97 @@
+jTDS连接字符串格式（URL Format)： 
+jdbc:jtds:<server_type>://<server>[:<port>] [/<database>] [;<property>=<value>[;...] ] 
+
+其中，<server_type>取值可以是'sqlserver'或'sybase'(各自的意义相当明显)，<port>为数据库服务监听端口(缺省情况下SQL Server为1433，Sybase为7100)*；<database>为数据库名--JDBC术语：编目(catalog)--(如果未指明数据库，将会使用用户的缺省数据库)。 
+*新版本Sybase使用默认端口值似乎已改成了5000 
+
+jTDS支持的属性集合： 
+
+appName（缺省为'jTDS') : 应用名称。无实际用途，此名称将会被Enterprise Manager或Profiler显示在连接信息中。 
+
+batchSize（SQL Server缺省值为0；Sybase缺省值为1000） : 控制SQL批处理中SQL语句的数量。若用户批处理中语句数量多于此值，将会被分割为小块并单独发送。这么作的原因是避免Sybase因批处理语句过多引起空间耗尽而造成的进程挂起。SQL Server并不存在这样的问题，因此缺省值为0（无限制）。 
+
+bindAddress（缺省值－由Java实现决定；需要Java 1.4或更高版本） : 为连接到数据库的TCP/IP链接绑定本地IP地址。对于多宿主系统（multi-homed systems, 拥有多个外部IP地址的系统），Java选择的缺省IP地址也许无法连接到指定数据库，这种情况下就需要指定使用哪一个本地址。当前，此属性对采用命名管道连接数据库的方式无影响（见namedPipe）。jTDS-1.2起支持此属性。 
+
+bufferDir（缺省值－System.getProperty("java.io.tmpdir") ) : 控制数据在磁盘上的缓存位置。参见bufferMaxMemory和bufferMinPackets。 
+
+bufferMaxMemory（缺省值－1024） : 控制所有连接的全局缓存内存上限（单位为KB）。当缓存的服务器响应包达到指定上限，其他包将会被缓存到磁盘；例外：应用此上限前，每一条SQL语句所对应的响应结果在内存中都必须至少缓存<bufferMinPackets>个包;。这意味着，bufferMaxMemory所指定的上限可以并且通常都会被突破。 
+仅当一个连接中另一条SQL语句的返回结果未能被及时处理情况下，同一连接中某条SQL语句的服务器响应包才会被缓存至磁盘。一般地，可以通过设置useCursors属性来避免以上情况，但同时会带来对性能的影响。 
+参见bufferMinPackets。 
+
+bufferMinPackets（缺省值－8） : 控制每条SQL语句响应包在内存中缓存数量的下限。每一条SQL语句都将至少在内存中缓存此数值指定数量的包，即使<bufferMaxMemory>指定的上限已达到。这样作的目的是为了获得更好的性能，即使某条SQL语句的响应数据量非常大。 
+参见bufferMaxMemory。 
+
+cacheMetaData（缺省值－false） : 若使用了preSQL=3，设置此值为true将会使jTDS驱动缓存为SELECT语句缓存列元数据。在重复使用某些可能会因数据库架构(schema)更改而引起异常的、返回记录虽少但包含多列的SQL语句时，缓存元数据可以有效减少系统开销。谨慎使用。属性仅可应用于SQL Server（对于Sybase，不存在preSQL=3的模式）。 
+
+charset（缺省值－数据库所安装服务器的字符集） : 重要设置，决定了字符值到CHAR/VARCHAR/TEXT值的映射。应用于扩展字符集（编码值128－255）。对使用Unicode存储的NCHAR/NVARCHAR/NTEXT等值并无影响。 
+
+domain : 指定认证的Windows域。如果此属性值存在并提供了用户名和密码，jTDS使用Windows（NTLM）认证方式取代SQL Server认证方式（即，所提供的用户名和密码为域用户名和密码）。此属性允许那些非Windows客户端提供了登录那些配置为仅接受Windows认证方式数据库。如果指定了域属性但并未提供域用户名和密码，jTDS将使用本机的单点登录库(Single-Sign-On library)并以Windows登录用户的凭证登录数据库（需要客户端运行在Windows之上，登录了域，并安装了SSO库－－查阅发行包中README.SSO获知如何作到)。 
+
+instance : 欲连接的命名实例。SQL Server可以在同一台机器上运行多个命名实例(named instance)（即，不同的服务实例，运行在不同的TCP端口之上）。使用Microsoft工具，可以用"<host_name>=<instance_name>"的方式而不是"<host_name>"来选择不同的实例。使用jTDS，必须将主机名和实例名分别指定，实例名为一个单独的属性。 
+
+lastUpdateCount（缺省值－true） : 仅当executeUpdate()返回最后更新数量时有效。对带有触发器(Triggers)的表（例如镜像表，replicated table)进行更新或插入操作时，此属性相当有用；想区分由触发器返回的更新数量和实际更新数量是不可能的，但通常触发器首先被执行而实际更新数量则在后面。如果lastUpdateCount为false，所有更新数量都将被返回；使用getMoreResule()来依次获取。 
+
+lobBuffer（缺省值－32768） : LOB数据在被缓存到磁盘前在内存中的缓存数量。对Blob数据单位为字节（Bytes)，对Clob数据单位为字符(Chars)。 
+
+loginTimeout（缺省值－TCP/IP连接缺省为0，命名管道连接缺省为20） : 为连接设置等待超时时长（单位为秒）。如果使用了Java 1.4或更新版本，TCP/IP连接方式下，loginTimeout参数用以设置打开新socket的连接初始化超时。0（缺省值）表示无限等待直至连接建立或有错误发生。参见socketTimeout。 
+如果使用命名管道连接方式并且loginTimeout值大于零，当尝试连接到服务器时收到"所有管道实例忙(All pipe instance are busy)"错误时，loginTimeout值被用作重新连接周期的长度。如果loginTimeout为0（缺省值），命名管道重连周期将会为20秒。 
+
+macAddress（缺省值－"000000000000"） : 网卡MAC地址。会被Enterprise Manager或Profiler显示在连接信息中，此属性也会被用来解决SQL Server许可所允许客户端数量的问题。Java不能自动检测MAC地址（即不使用native代码情况下），因此如果需要，必须手工指定。 
+
+maxStatements（缺省值－500） : 每一条连接应缓存的预分析SQL语句数量。取值为0将会禁止语句缓存。取值为Interger.MAX_VALUE（2147483647）将会允许快速缓存（使用更少的内存，并且对移除语句不会增加额外开销）；任何被缓存的语句都不会被释放，因此，尽管这样作通常情况下不会给大多数应用带来麻烦，还是应谨慎使用此值。 
+
+namedPipe（缺省值－false） : 若设为true，连接数据库时将会使用命名管道方式取代TCP/IP方式。当os.name属性值以"windows"（大小写不区分）开始，命名管道（本地端和远端）将会以打开一个路径指定RandomAccessFile的Windows文件系统方式进行访问。当SQL Server和客户端位于同一台机器时，命名管道方式由于省略了TCP/IP套接字方式中的网络层，因此通常可以获得更高的效率。如os.name不是以"windows"开始，将会使用JCIFS。JCIFS提供了纯Java的命名管道实现并使用了NTLM认证，因此需要domain参数。 
+此功能支持instance参数（更改命名管道URL），但当前并不支持位于服务器/sql/query以外的命名管道。如设置了namedPipe属性，port参数将会被忽略。 
+
+packetSize（缺省值－TDS 7.0／8.0为4096；TDS 4.2／5.0为512） : 网络包大小（512的整倍数）。 
+
+password（必需） : 登录使用的密码。如使用getConnection(String url, String user, String password)方法，密码以参数形入输入，因此无需在url中设置；如使用getConnection(String url, Propertys info)或JtdsDataSource，则必须在url中设定此属性。 
+
+prepareSQL（缺省值－SQL Server为3，Sybase为1） : 参数指定预准备语句机制。 
+
+
+值 描述 
+0 SQL语句直接发送至服务器，常量(literals)被插入到SQL语句中（慢） 
+1 为每条唯一的SQL语句生成临时存储过程，并进行参数合并（快） 
+2 使用sp_executesql（快） 
+3 sp_prepare和sp_cursorprepare结合sp_execute和sp_cursorexecute使用（快速，仅适用于SQL Server) 
+
+progName（缺省值－"jTDS"） : 客户端库名称。无实际意义，Enterprise Manager或Profiler将会显示在所属连接信息中。 
+
+processId（缺省值－123） : 与连接相关的客户端进程ID。必须为整数数值，如设定为字符串"computer"，jTDS将会选择进程ID。 
+
+sendStringParametersAsUnicode（缺省值－true） : 决定发送给SQL Server数据库的字符串是以Unicode或数据库缺省字符集进行编码。此属性将会严重影响SQL Server 2000的性能，因为SQL Server2000并不会进行字符串类型转换，这意味着如果某个索引列是Unicde而字符串是以缺省编码（或其他编码）提交到服务器，SQL Server将无法使用索引索查而只能使用索引扫描。对于Sybase，属性决定那些无法以服务器字符集编码的字符串将以Unicde编码方式发送。由于编码逻辑会带来性能上的下降，因此除非用了unitext或univarchar数据类型，或字符集为utf-8，否则将此属性设置为false。 
+
+socketTimeout（缺省值－0） : 网络活动性等待超时时长。谨慎使用。如果设置属性为非负值，必须确保此数值大于服务器对请求进行响应所需的时间。一旦超时，网络链接将会被关闭。此参数对于检测公用环境中的无效网络连接有用。参见loginTimeout。 
+
+ssl（缺省值－off） : 指定是否以及如何使用SSL安全连接。 
+
+值 描述 
+off 不使用ssl；缺省 
+request 请求使用ssl;如服务器不同意此请求，则使用普通连接 
+require 请求使用ssl;如服务器不同意此请求，则抛出一个异常 
+authenticate 同require；并额外附加对服务器SSL证书有效性的检查 
+
+tcpNoDelay（缺省值－true） : true允许套接字TCP_NODELAY属性；false则禁止。 
+
+TDS（缺省值－SQL Server为"8.0"；Sybase为"5.0"） : TDS（Tabular Data Stream）版本。TDS是SQL Server和Sybase服务器与客户端进行通信的传输协议。jTDS支持TDS 4.2，5.0，7.0，8.0。SQL Server 6.5和Sybase 10使用TDS 4.2；Sybase 11使用TDS 5.0；SQL Server 7.0使用TDS 7.0，此版本也可使用于SQL Server 2000；SQL Server 2000和SQL Server 2005使用TDS 8.0。 
+通常情况下，新版本的数据库兼容低版本的协议。这意味着，对于SQL Server 7.0可以使用TDS 4.2，但将会受到低版本协议的某些限制（例如，使用TDS 4.2将会限制 VARCHAR为255个字符以内）。结论，连接到SQL Server 6.5或Sybase时，必须将此属性设置为"4.2"。连接至Sybase时，不能设置属性值为"7.0"或"8.0"，因为这两个版本为SQL Server专用协议版本。进一步，连接到任何版本的SQL Server时，都不能将此属性设置为Sybase独有版本5.0。 
+
+useCursors（缺省值－false） : 指示对前向只读的结果集合，jTDS用服务器端游标(cursor)取代直接选择方式(AKA firehose cursor)（对于其他类型的结果集合，使用服务器端或客户端游标）。 
+使用firehose游标，对于SELECT查询，服务器以所有结果记录作为响应。这种方法速度快，但意味着驱动如果想在所有响应记录得到处理前发出另一个请求的话，必须将所有当前记录缓存起来。所以在每个连接都使用了多条语句的情况下，使用服务器游标的方法更合理。后者允许驱动每次仅请求有限的记录数（通过fetchSize属性可设置）。同时，后者将会带来额外的请求－响应周期，但驱动仅需较少的数据。 
+如果此属性设置为真，SQL Server将会生成一个快速前向游标（fast forward-only cursor）；而Sybase将会生成一个前向只读游标。 
+
+useJCIFS（缺省值－false） : 控制Windows操作系统之上的命名管道使用jCIFS库或本地文件系统方式。（当操作系统不是Windows时，总是使用jCIFS库）。可应用于使用命名管道连接位于不同域的客户端和服务器的情况。参见namedPipe。jTDS-1.2起支持。 
+
+useLOBs（缺省值－true） : 控制大数据类型（如IMAGE，TEXT/NTEXT）是否应当被缺省映射为LOBs或Java类型（String和byte[]）。返回的JDBC类型常量也可以由以下属性控制：Types.BLOB（对于IMAGE）；属性为true时，Types.CLOB（对于TEXT/NTEXT），Types.LONGVARBINARY（对IMAGE）；属性为false时，Types.LONGVARCHAR(对TEXT/NTEXT）。 
+此属性可以应用在以下情况：直接打印由getObject()方法返回的数值时（例如，使用JSTL或其他框架时），Blob和Clob未提供toString()方式（因没有需要，并且容易在记录日志数据等情况下造成内存耗尽错误）。此属性缺省值设为true的优点在于可以通过lobBuffer属性来控制那些缓存在内存中的大块头对象；属性设为false，内部仍将使用Blob和Clob实现，在调用getObject()方法时值将会被量化到内存中，认样可能会导致内存问题。 
+
+useNTLMv2（缺省值－false） : 使用windows认证方式时，设置为true将会发送LMv2/NTLMv2响应。 
+
+user（必需） : 登录用户名。使用getConnection(String url, String user, String password)方法时用户名以参数形式转入，因此不需要在url中设定；如果使用getConnection(String url, Properties info)或JtdsDataSource时必须在url中指定。 
+
+wsid（缺省值－客户端主机名） : 工作站ID。无实际意义，Enterprise Manager或Profiler会显示在连接信息中。 
+
+xaEmulation（缺省值－true） : 属性值为true时，模拟XA分布式事务支持；为flase，使用试验性的真正的分布式事务支持。真正的分布式事务支持仅可应用于SQL Server 2000，并且需要安装目标主机中安装有外部存储介质（参见发行包中README.XA文件）。 
+
+属性可以通过以下三种方式传递给jTDS：url; getConnection()中的属性对象；JtdsDataSource的设置器（如果连接是通过DataSource而不是使用DriverManager获得）。使用JtdsDataSource方式时没有URL，因此提供了三个其他属性（带有setter/getter方法)来设置url语法中的serverName，portNumber和databaseName（各自意义相当明确）。

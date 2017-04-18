@@ -1,0 +1,21 @@
+   html {
+        height: 100%
+    }
+    body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+    }
+    #container {
+        height: 100%;
+        /* -webkit-animation:bounceIn 2s .2s linear both;
+        -moz-animation:bounceIn 2s .2s linear both; */
+    }
+    @-webkit-keyframes bounceIn{
+        0%{opacity:0; -webkit-transform:scale(.2) rotate(-720deg)}
+        100%{opacity:1;-webkit-transform:scale(1) rotate(0deg)}
+    }
+    @-moz-keyframes bounceIn{
+         0%{opacity:0; -moz-transform:scale(.2);-moz-transform:rotate(-720deg)}
+        100%{opacity:1;-moz-transform:scale(1);-moz-transform:rotate(0deg)}
+    }
