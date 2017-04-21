@@ -1,6 +1,9 @@
 package com.he.spring.util;
 
+import org.apache.commons.lang3.Validate;
+
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 
 /**
  * 加密
@@ -34,7 +37,7 @@ public class Cryptos {
         return result;
     }
 
-    // private static SecureRandom random = new SecureRandom();
+     private static SecureRandom random = new SecureRandom();
     //
     // // ==================================================================================================================================
     // // BASE64
@@ -149,19 +152,19 @@ public class Cryptos {
     // }
     // }
     //
-    // /**
-    // * 生成随机的Byte[]作为salt.
-    // *
-    // * @param numBytes byte数组的大小
-    // */
-    // public static byte[] generateSalt(int numBytes) {
-    // Validate.isTrue(numBytes > 0, "numBytes argument must be a positive integer (1 or larger)", numBytes);
-    // byte[] bytes = new byte[numBytes];
-    // random.nextBytes(bytes);
-    // return bytes;
-    // }
-    //
-    // public static String generateSaltHexString(int numBytes) {
-    // return Bytes.toHexString(generateSalt(numBytes));
-    // }
+     /**
+     * 生成随机的Byte[]作为salt.
+     *
+     * @param numBytes byte数组的大小
+     */
+     public static byte[] generateSalt(int numBytes) {
+     Validate.isTrue(numBytes > 0, "numBytes argument must be a positive integer (1 or larger)", numBytes);
+     byte[] bytes = new byte[numBytes];
+     random.nextBytes(bytes);
+     return bytes;
+     }
+
+     public static String generateSaltHexString(int numBytes) {
+     return Bytes.toHexString(generateSalt(numBytes));
+     }
 }

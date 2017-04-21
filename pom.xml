@@ -544,7 +544,7 @@
     </dependencies>
     <build>
         <finalName>maven-web</finalName>
-        <!--<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>-->
+       <!-- <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>--><!-- <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>

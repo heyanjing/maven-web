@@ -1,19 +1,5 @@
 package com.he.spring.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.he.spring.bean.GeocodingResult;
@@ -25,16 +11,27 @@ import com.he.spring.util.Https;
 import com.he.spring.util.Jsons;
 import com.he.spring.util.Strings;
 import com.he.spring.util.Webs;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/home")
 @SessionAttributes(names = "model")
 public class HomeController {
 	@Autowired
-	private Cache	userCheatCache;
+	private Cache	userCheatCache;// MEINFO:2017/4/21 9:39 spring单独使用ehcache  配置文件spring-base-cache.xml
 	@Autowired
 	private Cache	mobileCodeCache;
 	@Resource

@@ -1,13 +1,14 @@
 package com.he.spring.shiro.util;
 
-import java.io.Serializable;
-import java.util.Date;
-
+import com.he.spring.util.Logs;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.he.spring.util.Logs;
+import java.io.Serializable;
+import java.util.Date;
 
 public class Shiros {
 
@@ -19,6 +20,24 @@ public class Shiros {
      */
     public static Subject getSubject() {
         return SecurityUtils.getSubject();
+    }
+
+    /**
+     * @return 是否已登陆认证
+     */
+    public static boolean isAuthenticated() {
+        return getSubject().isAuthenticated();
+    }
+
+    public static void login(AuthenticationToken token) throws AuthenticationException {
+        getSubject().login(token);
+    }
+
+    /**
+     * 获取当前用户
+     */
+    public static Object getCurrentUser() {
+        return getSubject().getPrincipal();
     }
 
     /**
@@ -45,12 +64,6 @@ public class Shiros {
         return getSubject().getSession(create);
     }
 
-    /**
-     * 获取当前用户
-     */
-    public static Object getCurrentUser() {
-        return getSubject().getPrincipal();
-    }
 
     public static Serializable getSessionId() {
         return getSession().getId();
