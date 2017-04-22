@@ -5,8 +5,6 @@ import com.he.spring.bean.Results;
 import com.he.spring.entity.User;
 import com.he.spring.service.UserService;
 import com.he.spring.shiro.util.Shiros;
-import com.he.spring.util.Cryptos;
-import com.he.spring.util.Encodes;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -14,10 +12,11 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.nio.charset.Charset;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
@@ -52,7 +51,14 @@ public class UserController {
 
     @RequestMapping(value = {"/reg/", "/reg"})
     @ResponseBody
-    public Result reg(String userName, String password) {
+    public Result reg(@Valid User user,BindingResult br) {
+        Result result = Results.failure(1, "注册失败");
+        if(br.hasErrors()){
+            result.setData(br.getAllErrors());
+        }
+
+
+        /*
         Result result = Results.failure(1, "注册失败");
         String salt = Cryptos.generateSaltHexString(10);
         System.out.println(salt);
@@ -63,6 +69,7 @@ public class UserController {
         User user = new User(userName, md5Password, sha1Password, salt, 99);
         this.userService.save(user);
         result = Results.success("注册成功");
+        return result;*/
         return result;
     }
 

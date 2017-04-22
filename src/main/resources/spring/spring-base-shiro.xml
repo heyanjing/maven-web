@@ -88,8 +88,13 @@
         -->
         <property name="filterChainDefinitions">
             <value>
-                /user/**=anon
                 /=anon
+                /user/**=anon
+                /person/**=anon
+                /home/**=anon
+                /dog/**=anon
+
+
                 /page1=user,roles[user1]
                 /page2=roles[user2]
                 /**=authc
