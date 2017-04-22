@@ -29,7 +29,7 @@ public class UserController {
     @RequestMapping(value = {"/login/", "/login"})
     public String login(String userName, String password, Model model) {
         Result result = Results.failure(1, "登陆失败");
-//        if (!Shiros.isAuthenticated()) {
+        if (!Shiros.isAuthenticated()) {
             UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
             token.setRememberMe(true);
             try {
@@ -44,7 +44,8 @@ public class UserController {
             } catch (AuthenticationException e) {
                 result.setMsg("用户名密码错误");
             }
-//        }
+        }
+
         model.addAttribute("result", result);
         return "redirect:" + "/";
     }

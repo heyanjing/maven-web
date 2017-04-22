@@ -49,7 +49,7 @@ public class HomeController {
 		} else {
 			System.err.println(Strings.toString(existEl.getObjectValue()));
 		}
-		Element el = new Element("e1", "窝草1");
+		Element el = new Element("e1", "窝草1缓存10秒");
 		userCheatCache.put(el);
 		model.addAttribute("model", "窝草");
 //		return "/ztree/ztree";/// ztree/ztree

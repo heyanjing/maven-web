@@ -1,5 +1,4 @@
 /*
- @formatter:off*/
 $.ajax({
 	type : "post",
 	url : CTX + "/person/findAll",
@@ -25,6 +24,7 @@ $.ajax({
 		App.log(jqXHR);
 	}
 });
+ */
 
 /*
  * $.ajaxSetup({ global : false, method : "POST", dataType : 'json', cache : false, timeout : 5000 });

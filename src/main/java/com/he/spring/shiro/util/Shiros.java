@@ -29,6 +29,10 @@ public class Shiros {
         return getSubject().isAuthenticated();
     }
 
+    public static boolean isRemembered() {
+        return getSubject().isRemembered();
+    }
+
     public static void login(AuthenticationToken token) throws AuthenticationException {
         getSubject().login(token);
     }

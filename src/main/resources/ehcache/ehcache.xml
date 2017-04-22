@@ -21,7 +21,7 @@
 	<cache name="userCheatCache"
 		maxEntriesLocalHeap="2000"
 		eternal="false"
-		timeToLiveSeconds="10000"
+		timeToLiveSeconds="10"
 		overflowToDisk="true"
 		diskPersistent="true"
 		statistics="true">
