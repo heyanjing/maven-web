@@ -539,11 +539,11 @@
     </dependencies>
 
     <!--
-    多环境打包
+    多环境打包 方式一
     1、profiles
     2、filters
     3、resources
-    -->
+-->
     <profiles>
         <profile>
             <id>dev</id>
@@ -569,16 +569,41 @@
         idea上屏蔽，eclipse上打开  方便jrebel
         <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
         -->
+        <!--
+            filters.filter:使用指定的文件内容替换原文件中的变量           ,资源文件可以${}形式加载对应配置文件中的值
+            resources.resource.filtering:允许使用变量替换资源文件          资源文件可以${}形式加载profile中properties内的值
         <filters>
-            <filter>${project.basedir}/src/main/resources/config/${env}.properties</filter><!--资源文件可以${}形式加载对应配置文件中的值-->
+            <filter>${project.basedir}/src/main/resources/config/${env}.properties</filter>
         </filters>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering><!--资源文件可以${}形式加载profile中properties内的值-->
+                <filtering>true</filtering>
             </resource>
         </resources>
+-->
+
         <plugins>
+            <!--多环境打包
+                war包中的在${env}.xml中定义的多个文件的属性都会被替换
+            方式二
+-->
+
+            <plugin>
+                <groupId>com.juvenxu.portable-config-maven-plugin</groupId>
+                <artifactId>portable-config-maven-plugin</artifactId>
+                <version>1.1.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>replace-package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <portableConfig>src/main/resources/portable/${env}.xml</portableConfig>
+                </configuration>
+            </plugin>
             <!--
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
@@ -611,8 +636,22 @@
                     <skip>true</skip><!-- install时不执行测试 测试 -->
                 </configuration>
             </plugin>
-            <!-- war打包插件, 设定war包名称不带版本号 <plugin> <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId> <version>2.6</version> </plugin> -->
+            <!--
+                war打包插件, 设定war包名称
+                -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                        </resource>
+                    </webResources>
+                    <warName>spring</warName>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

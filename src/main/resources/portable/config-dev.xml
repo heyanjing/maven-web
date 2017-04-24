@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 测试环境配置 -->
+<!-- 注意：当替换的内容出现XML特殊字符时，请使用<![CDATA[...]]> -->
+<!-- 注意：值内容尽量不要换行 -->
+<portable-config>
+	<config-file path="WEB-INF/classes/config/config.properties">
+
+		<replace key="jdbc.password">000000</replace>
+		<!-- APPLICATION
+		<replace key="APP_DOMAIN">http://192.168.1.108</replace>
+		<replace key="APP_DEBUG">true</replace>
+		-->
+
+		<!-- OSS Or Local
+		<replace key="DIR_URL">${APP_DOMAIN}/data/${APP_NAME}</replace>
+		-->
+
+		<!-- JDBC
+		<replace key="APP_DATABASE_URL"><![CDATA[ jdbc:mysql://db.timingbar.cn:3306/dev-edu?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false ]]></replace>
+		<replace key="APP_DATABASE_USERNAME">tbadmin</replace>
+		<replace key="APP_DATABASE_PASSWORD">tbadmin,.</replace>
+		-->
+
+		<!-- STATIC
+		<replace key="STATIC_URL">http://static.timingbar.cn</replace>
+		<replace key="STATIC_CTX_URL">http://static-edu.timingbar.cn</replace>
+		-->
+
+		<!-- API
+		<replace key="API_URL">http://192.168.1.110:9526/api</replace>
+		<replace key="API_APP">timingbar.edutest</replace>
+		<replace key="API_KEY">tbadmin\,.</replace>
+		-->
+		<config-file path="WEB-INF/classes/logbackxxxxxxxxxx.xml">
+			<replace xpath="//appender[@class='ch.qos.logback.core.ConsoleAppender']/filter[@class='ch.qos.logback.classic.filter.ThresholdFilter']/level">OFF</replace>
+			<replace xpath="//appender[@class='ch.qos.logback.core.rolling.RollingFileAppender']/filter[@class='ch.qos.logback.classic.filter.ThresholdFilter']/level">WARN</replace>
+			<replace xpath="//logger[@name='com.june.life']/@level">WARN</replace>
+			<replace xpath="//logger[@name='org.apache.shiro.authc.pam.ModularRealmAuthenticator']/@level">WARN</replace>
+			<replace xpath="//logger[@name='com.june.life.shiro.session']/@level">WARN</replace>
+			<replace xpath="//logger[@name='com.june.life.shiro.cache']/@level">WARN</replace>
+			<replace xpath="//logger[@name='org.springframework.web']/@level">WARN</replace>
+			<replace xpath="//root/@level">WARN</replace>
+		</config-file>
+	</config-file>
+</portable-config>

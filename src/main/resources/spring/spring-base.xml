@@ -9,8 +9,10 @@
 	<!-- 配置spring的工具类 -->
 	<bean id="springs" class="com.he.spring.base.util.Springs" />
 	<bean id="person" class="com.he.spring.entity.Person" />
-	<!--载入配置文件 -->
-	<context:property-placeholder location="classpath*:/config/${env}.properties" />
+	<!--载入配置文件
+	 ${env}.properties
+	 -->
+	<context:property-placeholder location="classpath*:/config/config.properties" />
 	<!-- 要扫描的包 -->
 	<context:component-scan base-package="com.he.spring">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />

@@ -88,6 +88,8 @@
         -->
         <property name="filterChainDefinitions">
             <value>
+                /static/**=anon
+                /kaptcha/**=anon
                 /=anon
                 /user/**=anon
                 /person/**=anon
