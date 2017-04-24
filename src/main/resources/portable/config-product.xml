@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 测试环境配置 -->
+<!-- 注意：当替换的内容出现XML特殊字符时，请使用<![CDATA[...]]> -->
+<!-- 注意：值内容尽量不要换行 -->
+<portable-config>
+    <config-file path="WEB-INF/classes/config/config.properties">
+
+        <replace key="jdbc.password">111111</replace>
+        <!-- APPLICATION
+        <replace key="APP_DOMAIN">http://www.jsyxx.cn</replace>
+        <replace key="APP_DEBUG">false</replace>
+-->
+        <!-- OSS Or Local
+        <replace key="DIR_URL">http://data.timingbar.com/${APP_NAME}</replace>
+-->
+        <!-- JDBC
+        <replace key="APP_DATABASE_HBM2DDL_AUTO">none</replace>
+        <replace key="APP_DATABASE_DRIVER"><![CDATA[com.mysql.jdbc.Driver]]></replace>
+        <replace key="APP_DATABASE_URL"><![CDATA[jdbc:mysql://tbrdsdb1n.mysql.rds.aliyuncs.com:3306/edu?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false]]></replace>
+        <replace key="APP_DATABASE_USERNAME">tb_edu</replace>
+        <replace key="APP_DATABASE_PASSWORD">tb_edu123</replace>
+-->
+        <!-- STATIC
+        <replace key="STATIC_URL">http://static.jsyxx.cn</replace>
+        <replace key="STATIC_CTX_URL">http://static-edu.jsyxx.cn</replace>
+-->
+        <!-- API
+        <replace key="API_URL">http://api.jsyxx.cn</replace>
+        <replace key="API_APP">timingbar.edu</replace>
+        <replace key="API_KEY">tbadmin\,.</replace>
+ -->
+        <!-- MAIL
+        <replace key="MAIL_HOST">smtp.mxhichina.com</replace>
+        <replace key="MAIL_USER">service@jsyxx.cn</replace>
+        <replace key="MAIL_PASS">Tbadmin123456</replace>
+-->
+        <config-file path="WEB-INF/classes/logbackxxxxxxxxxx.xml">
+            <replace xpath="//appender[@class='ch.qos.logback.core.ConsoleAppender']/filter[@class='ch.qos.logback.classic.filter.ThresholdFilter']/level">OFF</replace>
+            <replace xpath="//appender[@class='ch.qos.logback.core.rolling.RollingFileAppender']/filter[@class='ch.qos.logback.classic.filter.ThresholdFilter']/level">WARN</replace>
+            <replace xpath="//logger[@name='com.june.life']/@level">WARN</replace>
+            <replace xpath="//logger[@name='org.apache.shiro.authc.pam.ModularRealmAuthenticator']/@level">WARN</replace>
+            <replace xpath="//logger[@name='com.june.life.shiro.session']/@level">WARN</replace>
+            <replace xpath="//logger[@name='com.june.life.shiro.cache']/@level">WARN</replace>
+            <replace xpath="//logger[@name='org.springframework.web']/@level">WARN</replace>
+            <replace xpath="//root/@level">WARN</replace>
+        </config-file>
+    </config-file>
+</portable-config>
