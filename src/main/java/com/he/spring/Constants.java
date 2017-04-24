@@ -11,7 +11,7 @@ import com.he.spring.util.Dates;
  */
 public interface Constants {
 	public static String	VERSION			= Dates.newDateString(DateInfo.NONE);
-	public static String	CONFIG_PROPS	= "config/config.properties";
+	public static String	CONFIG_PROPS	= "config/config-dev.properties";
 	public static boolean	APP_DEBUG		= Configs.getBoolean("app_debug", false);
 
 	public static interface ExceptionInfo {

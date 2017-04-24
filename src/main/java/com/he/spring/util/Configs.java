@@ -4,7 +4,7 @@ import org.apache.commons.configuration2.PropertiesConfiguration;
 
 public class Configs {
 
-    private static PropertiesConfiguration CONFIG = Configurations.newPropertiesConfiguration("config/config.properties");
+    private static PropertiesConfiguration CONFIG = Configurations.newPropertiesConfiguration("config/config-dev.properties");
 
     /**
      * 获取 String 类型的属性值
