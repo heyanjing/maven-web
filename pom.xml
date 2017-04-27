@@ -533,6 +533,12 @@
             <artifactId>httpclient</artifactId>
             <version>4.2.1</version>
         </dependency>
+        <!--hibernate与java8的兼容包-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>5.1.0.Final</version>
+        </dependency>
 
         <!-- end -->
         <!-- end -->
