@@ -1,24 +1,19 @@
 package com.he.spring.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * 生成随机数据
- * TODO Randoms.getObject() -> Randoms.newObject();
+ *  Randoms.getObject() -> Randoms.newObject();
  * 
  * @author Yrain
  */

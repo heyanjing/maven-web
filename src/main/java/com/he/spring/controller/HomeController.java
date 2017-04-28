@@ -151,7 +151,6 @@ public class HomeController {
 		try {
 			System.err.println(Https.post(url, params));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
@@ -170,7 +169,6 @@ public class HomeController {
 		try {
 			System.err.println(Https.post(url, params));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;

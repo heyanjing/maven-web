@@ -1,13 +1,12 @@
 package com.he.spring.dao.impl;
 
-import java.util.Map;
-
-import org.springframework.data.domain.Page;
-
 import com.google.common.collect.Maps;
 import com.he.spring.base.dao.BaseJdbcDao;
 import com.he.spring.dao.custom.DogCustomDao;
 import com.he.spring.entity.Dog;
+import org.springframework.data.domain.Page;
+
+import java.util.Map;
 
 public class DogDaoImpl extends BaseJdbcDao<Dog> implements DogCustomDao<Dog> {
 
@@ -24,7 +23,6 @@ public class DogDaoImpl extends BaseJdbcDao<Dog> implements DogCustomDao<Dog> {
 
 	@Override
 	public Page<Dog> pageByNameByjdbc(String name, Integer pageNumber, Integer pageSize) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
