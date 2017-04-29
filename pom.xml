@@ -451,6 +451,7 @@
 
 
         <!--
+          // MEINFO:2017/4/28 15:50  log4j2相关的日志
         -->
         <dependency>
             <groupId>org.bgee.log4jdbc-log4j2</groupId>
