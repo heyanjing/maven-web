@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<description>Spring单独使用Ehcache,配置好bean后直接在需要用到的地方注入bean</description>
 	
 	<!-- ehcache 
 		如果没有指定configLocation，则将使用默认位置的配置文件创建CacheManager，这是属于Ehcache自身的逻辑，即如果在classpath根路径下存在ehcache.xml文件
+		p:shared="true"  共享ehcacheManager
 	-->
-	<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+	<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:shared="true">
 		<property name="configLocation" value="classpath:ehcache/ehcache.xml" />
 	</bean>
 	<!-- 另一个重要属性是cacheName，其表示当前EhCacheFactoryBean对应的是CacheManager中的哪一个Ehcache对象，若未指定默认使用beanName作为cacheName。 -->

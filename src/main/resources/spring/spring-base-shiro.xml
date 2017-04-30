@@ -21,7 +21,8 @@
     </bean>
 
     <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManager" ref="ehcacheManager"/> <!-- <property name="cacheManagerConfigFile" value="classpath:some/path/to/ehcache.xml"/> -->
+        <property name="cacheManager" ref="ehcacheManager"/>
+        <!-- <property name="cacheManagerConfigFile" value="classpath:some/path/to/ehcache.xml"/> -->
     </bean>
 
     <!--
