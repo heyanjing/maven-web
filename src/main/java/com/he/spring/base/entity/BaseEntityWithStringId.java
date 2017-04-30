@@ -10,8 +10,8 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class BaseEntityWithStringId extends BaseEntity<String> {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     protected String id;
 
     @Override

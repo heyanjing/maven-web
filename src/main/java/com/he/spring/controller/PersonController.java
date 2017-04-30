@@ -140,6 +140,9 @@ public class PersonController {
 	@RequestMapping(value = "/pageByName")
 	public Page<Person> pageByNamex(String name, String selectedIds, @RequestParam(name = "pageNumber", defaultValue = "1") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "20") Integer pageSize) {
 		Page<Person> page = this.personService.pageByName(name, selectedIds, pageNumber, pageSize);
+		if(true){
+			throw  new RuntimeException("手动抛得异常");
+		}
 //		System.out.println(page);
 		System.err.println("xxx我xx操我操我操我操我操我操我操我操我操我操我操我操我操");
 		return page;

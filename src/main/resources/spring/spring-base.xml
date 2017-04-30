@@ -46,8 +46,10 @@
 		<property name="packagesToScan" value="com.he.spring"></property>
 		<property name="jpaProperties">
 			<props>
-				<!-- 生成的数据表的列的映射策略 -->
+				<!-- 生成的数据表的列的映射策略
 				<prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop>
+				-->
+				<prop key="hibernate.physical_naming_strategy">${hibernate.physical_naming_strategy}</prop>
 				<!-- hibernate 基本属性 -->
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
