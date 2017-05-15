@@ -1,3 +1,7 @@
+$(function () {
+});
+
+
 /*
 $.ajax({
 	type : "post",
@@ -50,16 +54,16 @@ $('#btn').on('click', function() {
 	});
 });
 
-$('#demo').pagination({
-	dataSource : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
-	pageSize : 2,
-	showGoInput : true,
-	showGoButton : true,
-	callback : function(data, pagination) {
-		var html = template(data);
-		dataContainer.html(html);
-	}
-})
+// $('#demo').pagination({
+// 	dataSource : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+// 	pageSize : 2,
+// 	showGoInput : true,
+// 	showGoButton : true,
+// 	callback : function(data, pagination) {
+// 		var html = template(data);
+// 		dataContainer.html(html);
+// 	}
+// })
 
 // (function() {
 // console.log("1111111");

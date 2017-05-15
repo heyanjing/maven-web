@@ -89,7 +89,7 @@ $(function() {
 		},
 		minimumInputLength : 1,
 		templateResult : function(item) {
-			return '<span style="color:gre en">' + item.name + '</span><span style="font-size:8px">: ' + item.name + '</span>'
+			return '<span style="color:green">' + item.name + '</span><span style="font-size:8px">: ' + item.name + '</span>'
 		},
 		templateSelection : function(item) {
 			return item.name

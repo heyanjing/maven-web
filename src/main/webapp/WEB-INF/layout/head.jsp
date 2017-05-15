@@ -15,4 +15,5 @@
 <script type="text/javascript" src="${LIBS}/highcharts/no-data-to-display.js"></script>
 <script type="text/javascript" src="${LIBS}/moment/moment.js"></script>
 <script type="text/javascript" src="${JS}/common.js"></script>
+<script language="javascript" src="${PRINT}/LodopFuncs.js"></script>
 

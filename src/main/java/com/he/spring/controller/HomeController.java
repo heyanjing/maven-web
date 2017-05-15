@@ -52,11 +52,13 @@ public class HomeController {
 		Element el = new Element("e1", "窝草1缓存10秒");
 		userCheatCache.put(el);
 		model.addAttribute("model", "窝草");
+		System.err.println("b");
 //		return "/ztree/ztree";/// ztree/ztree
 //		return "/page_jsrender2";
 //		return "/handlebars";
 //		return "/select2";
-		return "/home";
+//		return "/home";
+		return "/print";
 	}
 
 	/**

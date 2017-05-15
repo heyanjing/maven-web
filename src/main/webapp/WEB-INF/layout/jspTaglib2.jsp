@@ -16,5 +16,5 @@
  <c:set var="LIBS" value="${STATIC}/libs" />
  <c:set var="JQUERY" value="${LIBS}/jquery" />
  <c:set var="PDF" value="${STATIC}/pdf" />
+ <c:set var="PRINT" value="${LIBS}/print" />
  <c:set var="V" value="<%=Constants.VERSION%>" />
- 
