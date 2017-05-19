@@ -24,18 +24,18 @@
 		<property name="password" value="${jdbc.password}"></property>
 		<property name="driverClass" value="${jdbc.driverClass}"></property>
 		<property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
-		<!-- 请求超时时间 -->  
-        <property name="checkoutTimeout" value="30000" />  
-        <!-- 每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 -->  
-        <property name="idleConnectionTestPeriod" value="30" />  
-        <!-- 连接数据库连接池最大空闲时间 -->  
-        <property name="maxIdleTime" value="30" />  
-        <!-- 连接池初始化连接数 -->  
-        <property name="initialPoolSize" value="5" />  
-        <property name="minPoolSize" value="5" />  
-        <property name="maxPoolSize" value="20" />  
-        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->  
-        <property name="acquireIncrement" value="5" />  
+		<!-- 请求超时时间 -->
+        <property name="checkoutTimeout" value="30000" />
+        <!-- 每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 -->
+        <property name="idleConnectionTestPeriod" value="30" />
+        <!-- 连接数据库连接池最大空闲时间 -->
+        <property name="maxIdleTime" value="30" />
+        <!-- 连接池初始化连接数 -->
+        <property name="initialPoolSize" value="5" />
+        <property name="minPoolSize" value="5" />
+        <property name="maxPoolSize" value="20" />
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->
+        <property name="acquireIncrement" value="5" />
 	</bean>
 	<!-- 配置 JPA 的 EntityManagerFactory -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -82,14 +82,31 @@
 			<tx:method name="*" propagation="REQUIRED" timeout="300" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
-	<!--假设有个日志切面 <bean id="logAdvice" class="com.he.spring.util.aop.Log"/> -->
+	<!--假设有个切面
+	<bean id="" class="com.he.spring.aop.AspectTest"/>
+	-->
 	<!--配置申明式事务 -->
 	<aop:config>
 		<aop:pointcut id="aopPointcut" expression="execution(* com.he.spring..*.*(..))" />
 		<aop:advisor pointcut-ref="aopPointcut" advice-ref="txAdvice" />
-		<!-- 加入日志 <aop:aspect id="" ref="" order=""> <aop:before method=""/> <aop:after-returning method=""/> <aop:after-throwing method=""/> <aop:after method=""/> <aop:around method=""/> </aop:aspect> -->
+		<!-- xml配置切面
+		<aop:aspect  ref="aspectTest" >
+            <aop:before method="before" pointcut-ref="aopPointcut"/>
+            <aop:after method="after" pointcut-ref="aopPointcut"/>
+            <aop:after-returning method=""/>
+            <aop:after-throwing method=""/>
+            <aop:around method=""/>
+		</aop:aspect>
+		-->
 	</aop:config>
-	<!--解析返回JSON 
+    <!--开启aop注解支持 激活自动代理功能  只能以非controller层为切入点
+    -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+
+
+
+	<!--解析返回JSON
 	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes">
 			<list>

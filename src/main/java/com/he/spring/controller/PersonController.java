@@ -66,24 +66,24 @@ public class PersonController {
 		}
 		return personService.saveAll(list);
 	}
-	public static byte[] getRequestPostBytes(HttpServletRequest request)  
-            throws IOException {  
-		int contentLength = request.getContentLength();  
-        if(contentLength<0){  
-            return null;  
-        }  
-        byte buffer[] = new byte[contentLength];  
-        for (int i = 0; i < contentLength;) {  
-  
-            int readlen = request.getInputStream().read(buffer, i,  
-                    contentLength - i);  
-            if (readlen == -1) {  
-                break;  
-            }  
-            i += readlen;  
-        }  
-        return buffer;  
-    }  
+	public static byte[] getRequestPostBytes(HttpServletRequest request)
+            throws IOException {
+		int contentLength = request.getContentLength();
+        if(contentLength<0){
+            return null;
+        }
+        byte buffer[] = new byte[contentLength];
+        for (int i = 0; i < contentLength;) {
+
+            int readlen = request.getInputStream().read(buffer, i,
+                    contentLength - i);
+            if (readlen == -1) {
+                break;
+            }
+            i += readlen;
+        }
+        return buffer;
+    }
 	@RequestMapping(value = "/savex")
 	@ResponseBody
 	public Result savex(HttpServletRequest request,HttpServletResponse response,String json) throws IOException {
@@ -91,7 +91,7 @@ public class PersonController {
 		 *okgo.upjson 上传json
 		String s=new String(getRequestPostBytes(request));
 		System.err.println(s);*/
-		
+
 		Result reslut=Results.success();
 		Person person=null;
 		if(json!=null){
@@ -138,13 +138,12 @@ public class PersonController {
 
 	@ResponseBody
 	@RequestMapping(value = "/pageByName")
-	public Page<Person> pageByNamex(String name, String selectedIds, @RequestParam(name = "pageNumber", defaultValue = "1") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "20") Integer pageSize) {
+	public Page<Person> pageByName(String name, String selectedIds, @RequestParam(name = "pageNumber", defaultValue = "1") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "20") Integer pageSize) {
 		Page<Person> page = this.personService.pageByName(name, selectedIds, pageNumber, pageSize);
 		//if(true){
 		//	throw  new RuntimeException("手动抛得异常");
 		//}
 //		System.out.println(page);
-		System.err.println("xxx我xx操我操我操我操我操我操我操我操我操我操我操我操我操");
 		return page;
 	}
 

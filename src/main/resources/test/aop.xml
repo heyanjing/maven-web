@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <!--
+        // MEINFO:2017/5/19 11:04 单独使用可以成功
+    -->
+    <bean id="aspect" class="com.he.spring.aop.test.AspectTest"/>
+
+    <bean id="action" class="com.he.spring.aop.test.ActionTest"/>
+
+    <aop:config >
+        <aop:aspect id="qie_mian" ref="aspect">
+            <aop:pointcut id="qie_ru_dian" expression="execution(* com.he.spring.aop.test.*.*(..))"/>
+            <aop:before method="before" pointcut-ref="qie_ru_dian"/>
+            <aop:after  method="after" pointcut-ref="qie_ru_dian"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

@@ -57,8 +57,8 @@ public class HomeController {
 //		return "/page_jsrender2";
 //		return "/handlebars";
 //		return "/select2";
-//		return "/home";
-		return "/print";
+		return "/home";
+//		return "/print";
 	}
 
 	/**

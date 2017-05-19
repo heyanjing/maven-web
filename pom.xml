@@ -74,9 +74,6 @@
             </dependency>
 
 
-
-
-
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
@@ -536,8 +533,6 @@
         </dependency>
 
 
-
-
         <!--
           // MEINFO:2017/4/28 15:50  log4j2相关的日志
         -->
@@ -583,7 +578,6 @@
             <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
         </dependency>
          -->
-
 
 
         <dependency>
@@ -679,7 +673,7 @@
             <artifactId>hibernate-java8</artifactId>
             <version>5.1.0.Final</version>
         </dependency>
-
+        <!--工具类-->
         <dependency>
             <groupId>com.feilong.platform</groupId>
             <artifactId>feilong-core</artifactId>
@@ -695,7 +689,12 @@
             <artifactId>feilong-io</artifactId>
             <version>1.10.2</version>
         </dependency>
-
+        <!--aop切面-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.10</version>
+        </dependency>
         <!-- end -->
         <!-- end -->
     </dependencies>
