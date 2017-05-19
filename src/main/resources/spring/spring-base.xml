@@ -86,7 +86,7 @@
 	<bean id="" class="com.he.spring.aop.AspectTest"/>
 	-->
 	<!--配置申明式事务 -->
-	<aop:config>
+	<aop:config >
 		<aop:pointcut id="aopPointcut" expression="execution(* com.he.spring..*.*(..))" />
 		<aop:advisor pointcut-ref="aopPointcut" advice-ref="txAdvice" />
 		<!-- xml配置切面

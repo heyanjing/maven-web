@@ -1,10 +1,10 @@
 package com.he.spring.aop;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.he.spring.util.Logs;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
+import org.slf4j.Logger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,7 @@ import java.util.List;
 @Component
 @Aspect
 public class ControllerAspect2 {
-    private static final Log log = LogFactory.getLog(ControllerAspect2.class);
+    private static final Logger log = Logs.getLogger(ControllerAspect2.class);
 
     @Pointcut("execution(* com.he.spring.controller..*.*(..))")
     public void pointcut() {
@@ -40,7 +40,7 @@ public class ControllerAspect2 {
         String method = signature.getDeclaringTypeName() + "-->" + signature.getName();
         List<Object> args = Arrays.asList(joinPoint.getArgs());
         log.info(method);
-        log.info(args);
+        log.info(args.toString());
     }
 
     //在目标方法执行后执行（发生异常也执行） 不能获取目标方法执行后的结果
