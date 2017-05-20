@@ -22,5 +22,5 @@ import javax.servlet.annotation.WebServlet;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = "/kaptcha/kaptcha.jpg", asyncSupported = true, loadOnStartup = -1, name = "kaptcha", displayName = "kaptcha")
 public class VerificationCodeServlet extends KaptchaServlet {
-
+//http://www.cnblogs.com/liuhongfeng/p/4702566.html
 }
