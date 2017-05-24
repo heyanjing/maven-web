@@ -44,8 +44,8 @@ public class PersonController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/get")
-	public Person get(String id) {
-		return personService.get(id);
+	public Person xget(String id) {
+		return personService.xget(id);
 	}
 
 	@ResponseBody

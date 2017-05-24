@@ -63,7 +63,7 @@
 		</property>
 	</bean>
 	<!-- 配置 SpringData -->
-	<jpa:repositories base-package="com.he.spring" entity-manager-factory-ref="entityManagerFactory" factory-class="com.he.spring.base.dao.BaseRepoFactoryBean"></jpa:repositories>
+	<jpa:repositories base-package="com.he.spring" entity-manager-factory-ref="entityManagerFactory" factory-class="com.he.spring.base.dao.BaseRepoFactoryBean" ></jpa:repositories>
 	<!-- 配置事务管理器 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory"></property>
