@@ -12,6 +12,10 @@
     <title>Title</title>
 </head>
 <body>
+<%
+    String sessionId=request.getSession().getId();
+%>
+<%=sessionId%>
 <shiro:hasRole name="user1">
     <a href="/spring/page1">页面一，角色user1才能访问</a>
 </shiro:hasRole>

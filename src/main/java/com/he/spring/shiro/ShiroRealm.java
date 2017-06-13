@@ -69,8 +69,13 @@ public class ShiroRealm extends AuthorizingRealm {
         // 通过ShiroBean查询出该用户拥有的角色，然后添加进角色授权认证中
         // XXX
         User user = (User) principals.getPrimaryPrincipal();
-        info.addRole("user1");
-        info.addRole("user2");
+        if(user.getName().equals("何彦静")){
+            info.addRole("user1");
+            info.addRole("user2");
+        }
+        if(user.getName().equals("陈友兰")){
+            info.addRole("user2");
+        }
         info.addRole("用户角色");
         return info;
     }

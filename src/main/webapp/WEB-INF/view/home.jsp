@@ -8,6 +8,13 @@
         <link rel="stylesheet" type="text/css" href="${CSS }/pagination/pagination.css?${V}">
     </head>
     <body>
+
+    ${sessionId}
+    <br/>
+    ${session}
+    <br/>
+    ${userKey}
+    <br/>
         ${page1}
         <br />
         ${page2}

@@ -11,17 +11,22 @@
     <title>Title</title>
 </head>
 <body>
-    <a id="login" href="/spring/user/login?userName=何彦静&password=123456">登陆</a>
+
+${sessionId}
+<br/>
+${session}
+<br/>
+    <a id="login" href="/spring/user/login?userName=何彦静&password=123456">何彦静登陆</a>
+    <a id="login" href="/spring/user/login?userName=陈友兰&password=123456">陈友兰登陆</a>
     <a href="/spring/user/reg?userName=何彦静&password=123456">注册</a>
     <a href="/spring/user/logout">注销</a>
     ${result}
-
-<script type="text/javascript" src="/static/libs/jquery/jquery-1.12.4.js"/>
 <script type="text/javascript">
-    $('#loginx').on('click',function () {
-       $.post('');
-    });
 
+    $('#login').on('click',function () {
+
+    });
 </script>
+
 </body>
 </html>

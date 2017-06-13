@@ -1,4 +1,32 @@
 $(function () {
+   /*
+   跨域测试
+   $.ajax( {
+        url:CTX+'/person/pageByName?name=name1&pageNumber=1&pageSize=2',
+        type:'post',
+        dataType : "json",
+        success : function(data, textStatus, jqXHR) {
+            console.log(data);
+        },
+        error : function(data, textStatus, jqXHR) {
+            console.log("错误");
+        }
+
+    });
+    $.ajax({
+        url:CTX+'/person/pageByNamex',
+        type:'post',
+        dataType : "json",
+        data:{url:'http://localhost:8089/spring/person/pageByName'},//ajax不允许跨域，使用后台将跨域信息返回
+        success : function(data, textStatus, jqXHR) {
+            console.log(data);
+        },
+        error : function(data, textStatus, jqXHR) {
+            console.log("错误");
+        }
+
+    });*/
+
 });
 
 

@@ -1,21 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+    1、凭证匹配
+    2、配置realm
+    3、shiro的缓存管理  ehcacheManager是spring-base-cache.xml中配置的
+    4、配置安全管理
+    5、LifecycleBeanPostProcessor用于在实现了Initializable接口的Shiro bean初始化时调用Initializable接口回调，在实现了Destroyable接口的Shiro bean销毁时调用 Destroyable接口回调
+    6、配置拦截器  id必须与web中配置的拦截器名称相同
+    -->
 
-
-<!--凭证匹配器-->
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="MD5"/>
         <property name="hashIterations" value="1024"/>
     </bean>
-<!--自定义realm-->
+
     <bean id="shiroRealm" class="com.he.spring.shiro.ShiroRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
     </bean>
 
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManager" ref="ehcacheManager"/>
+        <!-- <property name="cacheManagerConfigFile" value="classpath:some/path/to/ehcache.xml"/> -->
+    </bean>
 
+    <!--
+    多个Realm时，
+    authenticator 配置认证器，默认的认证策略AtLeastOneSuccessfulStrategy
+    同时将认证器赋值给securityManager安全管理器
+    <bean id="shiroRealm2" class="com.he.spring.shiro.ShiroRealm2">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="SHA1"/>
+                <property name="hashIterations" value="1024"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+        <property name="realms">
+            <list>
+                <ref bean="shiroRealm"/>
+                <ref bean="shiroRealm2"/>
+            </list>
+        </property>
+        <property name="authenticationStrategy">
+            <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>
+        </property>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        //方式一
+        <property name="authenticator" ref="authenticator"/>
+        //方式二 一般选择第二种
+        <property name="realms">
+            <list>
+                <ref bean="shiroRealm"/>
+                <ref bean="shiroRealm2"/>
+            </list>
+        </property>
+    </bean>
+-->
 
     <!-- 会话Cookie模板 -->
     <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
@@ -23,12 +73,13 @@
         <property name="httpOnly" value="true"/>
         <property name="maxAge" value="-1"/>
     </bean>
-    <!-- rememberMe Cookie模板 -->
+
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="rememberMe"/>
         <property name="httpOnly" value="true"/>
         <property name="maxAge" value="2592000"/><!-- 30天 -->
     </bean>
+
     <!-- rememberMe管理器 -->
     <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
         <!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）-->
@@ -36,46 +87,25 @@
                   value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
         <property name="cookie" ref="rememberMeCookie"/>
     </bean>
-
-    <!-- 基于Redis -->
-    <bean id="customRedisSessionDao" class="com.he.spring.shiro.redis.CustomRedisSessionDao">
-        <property name="sessionKeyPrefix" value="web-session-"/>
-        <!-- 会话ID生成器 默认就是使用该生成器
-            <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
-            <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    <bean id="sessionManager"
+          class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 删除失效session -->
+        <property name="sessionValidationSchedulerEnabled" value="true" />
+        <!-- session失效时间（毫秒） -->
+        <property name="globalSessionTimeout" value="1800000" />
+        <property name="sessionDAO" ref="customShiroSessionDao" />
+    </bean>
+    <!--
+        单reaml时
     -->
-    </bean>
-    <bean id="customRedisCacheManager" class="com.he.spring.shiro.redis.CustomRedisCacheManager">
-        <property name="cacheKeyPrefix" value="web-cache-"/>
-    </bean>
-
-    <!-- 会话验证调度器 -->
-    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
-        <property name="sessionValidationInterval" value="10800000"/>
-        <property name="sessionManager" ref="sessionManager"/>
-    </bean>
-
-    <!-- 会话管理器 -->
-    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="globalSessionTimeout" value="10800000"/>
-        <property name="deleteInvalidSessions" value="true"/>
-        <property name="sessionValidationSchedulerEnabled" value="true"/>
-        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
-        <property name="sessionDAO" ref="customRedisSessionDao"/>
-        <property name="sessionIdCookieEnabled" value="true"/>
-        <property name="sessionIdCookie" ref="sessionIdCookie"/>
-    </bean>
-
-    <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="shiroRealm"/>
+        <property name="cacheManager" ref="cacheManager"/>
         <property name="sessionManager" ref="sessionManager"/>
-        <property name="cacheManager" ref="customRedisCacheManager"/>
         <property name="rememberMeManager" ref="rememberMeManager"/>
     </bean>
 
-
-
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
@@ -98,9 +128,8 @@
 
 
 
-                /page1=roles[user1]
+                /page1=user,roles[user1]
                 /page2=roles[user2]
-                /page3=user
                 /**=authc
                 <!--
                 /user/**=anon
@@ -134,12 +163,5 @@
             </value>
         </property>
     </bean>
-
-    <!--
-    Shiro生命周期处理器
-
-    -->
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-
 
 </beans>

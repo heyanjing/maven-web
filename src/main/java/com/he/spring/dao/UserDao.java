@@ -9,4 +9,6 @@ import java.util.List;
 public interface UserDao extends BaseRepo<User, String>, UserCustomDao<User> {
 
     List<User> findByName(String name);
+
+    User getById(String id);
 }
