@@ -2,5 +2,6 @@
 <decorators>
 	<decorator name="default" page="/WEB-INF/layout/decorator/home2.jsp">
 		<pattern>/home**</pattern>
+		<pattern>/</pattern>
 	</decorator>
 </decorators>

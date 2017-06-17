@@ -37,7 +37,7 @@ public class CustomRedisCache<K, V> implements Cache<K, V> {
      * @param name
      */
     protected CustomRedisCache(String name) {
-        cacheKeyPrefix = name;
+        this.cacheKeyPrefix = name;
     }
 
     @Override

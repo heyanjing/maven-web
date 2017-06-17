@@ -1,16 +1,19 @@
-package com.he.spring.shiro;
+package com.he.spring.shiro.realm;
 
 import com.he.spring.dao.UserDao;
 import com.he.spring.entity.User;
+import com.he.spring.shiro.redis.ICustomRedisCacheManager;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 先进行登录认证
@@ -20,7 +23,13 @@ import java.util.List;
 public class ShiroRealm extends AuthorizingRealm {
 
     @Autowired
-    private UserDao userDao;
+    private UserDao                 userDao;
+
+    private ICustomRedisCacheManager customRedisCacheManager;
+
+    public void setCustomRedisCacheManager(ICustomRedisCacheManager customRedisCacheManager) {
+        this.customRedisCacheManager = customRedisCacheManager;
+    }
 
     /**
      * 登录认证信息 Subject.login(token);会回调该方法
@@ -43,7 +52,17 @@ public class ShiroRealm extends AuthorizingRealm {
         }
         User user = userList.get(0);
         if (user.getState() == 99) {
-            throw new LockedAccountException("用户被锁定");
+            throw new LockedAccountException("用户锁定未解除");
+        }
+        Cache<String, AtomicInteger> cache = customRedisCacheManager.getCache(loginName);
+        AtomicInteger retryCount = cache.get(loginName);
+        if(retryCount == null) {
+            retryCount=new AtomicInteger(0);
+        }
+        if(retryCount.incrementAndGet() > 2) {
+            throw new ExcessiveAttemptsException ("用户锁定10分钟");
+        }else{
+            cache.put(loginName,retryCount);
         }
 
 
@@ -70,13 +89,18 @@ public class ShiroRealm extends AuthorizingRealm {
         // XXX
         User user = (User) principals.getPrimaryPrincipal();
         if(user.getName().equals("何彦静")){
-            info.addRole("user1");
+            info.addRole("user1");//添加角色
             info.addRole("user2");
+            info.addStringPermission("permission1");//添加权限
+            info.addStringPermission("permission2");
         }
         if(user.getName().equals("陈友兰")){
             info.addRole("user2");
+            info.addStringPermission("permission2");
         }
         info.addRole("用户角色");
+
+
         return info;
     }
 }

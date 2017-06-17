@@ -7,8 +7,10 @@ import com.he.spring.bean.Result;
 import com.he.spring.bean.Results;
 import com.he.spring.entity.Person;
 import com.he.spring.service.PersonService;
+import com.he.spring.shiro.util.Shiros;
 import com.he.spring.util.Https;
 import com.he.spring.util.Jsons;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,6 +151,9 @@ public class PersonController {
         //	throw  new RuntimeException("手动抛得异常");
         //}
 //		System.out.println(page);
+        Subject subject = Shiros.getSubject();
+        log.warn("subject.isAuthenticated()"+subject.isAuthenticated());
+        log.warn("subject.isRemembered()"+subject.isRemembered());
         return page;
     }
 

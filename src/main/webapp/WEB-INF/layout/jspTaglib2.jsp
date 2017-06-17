@@ -7,8 +7,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
- <c:set var="CTX" value="${pageContext.request.contextPath}" />
+<c:set var="CTX" value="${pageContext.request.contextPath}" />
  <c:set var="STATIC" value="${CTX}/static" />
  <c:set var="IMG" value="${STATIC}/img" />
  <c:set var="JS" value="${STATIC}/js" />

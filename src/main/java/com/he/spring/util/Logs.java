@@ -1,9 +1,11 @@
 package com.he.spring.util;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * 提供日志的打印
@@ -169,5 +171,25 @@ public class Logs {
 
     public static boolean isDebug() {
         return (logger.isInfoEnabled() && (logger.isWarnEnabled() || logger.isErrorEnabled()));
+    }
+
+    public static void LogToDB(Logger log, Exception ex) {
+        if (log == null) {
+            log = logger;
+        }
+        StackTraceElement stackTraceElement = ex.getStackTrace()[0];
+        //出错行
+        int lineNumber = stackTraceElement.getLineNumber();
+        //方法签名
+        String methodName = stackTraceElement.getMethodName();
+        //获得类名
+        String className = stackTraceElement.getClassName();
+
+        log.error("方法" + className + "." + methodName, "参数" + stackTraceElement, "错误行：" + lineNumber, "时间" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "异常内容" + ex.toString());
+
+    }
+
+    public static void LogToDB(Exception ex) {
+        LogToDB(null, ex);
     }
 }

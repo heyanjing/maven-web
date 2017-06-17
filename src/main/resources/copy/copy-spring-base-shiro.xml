@@ -19,7 +19,7 @@
         <property name="hashIterations" value="1024"/>
     </bean>
 
-    <bean id="shiroRealm" class="com.he.spring.shiro.ShiroRealm">
+    <bean id="shiroRealm" class="com.he.spring.shiro.realm.ShiroRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
     </bean>
 

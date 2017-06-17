@@ -5,13 +5,12 @@
 package com.he.spring.shiro.redis;
 
 import org.apache.shiro.session.Session;
-import org.apache.shiro.session.UnknownSessionException;
-import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.apache.shiro.session.mgt.ValidatingSession;
+import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -21,31 +20,68 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author 张永强
  */
-public class CustomRedisSessionDao extends AbstractSessionDAO {
-
+public class CustomRedisSessionDao extends CachingSessionDAO {
+    private static final Logger log              = LoggerFactory.getLogger(CustomRedisSessionDao.class);
     /**
      * redis session key 前缀
      */
-    private String sessionKeyPrefix="web-session-";
+    private              String sessionKeyPrefix = "web-session-";
 
-    @Resource
     private RedisTemplate<String, Session> redisTemplate;
 
-  private static final Logger log = LoggerFactory.getLogger(CustomRedisSessionDao.class);
+    public void setRedisTemplate(RedisTemplate<String, Session> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
-    @Override
-    public void update(Session session) throws UnknownSessionException {
-        if (session == null || session.getId() == null) {
-            log.info("session or sessionId is null");
-        }
-        redisTemplate.opsForValue().set(this.sessionKeyPrefix + session.getId(), session, session.getTimeout(), TimeUnit.MILLISECONDS);
+    public void setSessionKeyPrefix(String sessionKeyPrefix) {
+        this.sessionKeyPrefix = sessionKeyPrefix;
     }
 
     @Override
-    public void delete(Session session) {
-        if (session == null || session.getId() == null) {
-            log.info("session or sessionId is null");
+    protected Serializable doCreate(Session session) {
+        Serializable sessionId = this.generateSessionId(session);
+        this.assignSessionId(session, sessionId);
+        redisTemplate.opsForValue().set(this.sessionKeyPrefix + session.getId(), session, session.getTimeout(), TimeUnit.MILLISECONDS);
+        log.warn("heRedis--- doCreate:-------{}",session);
+        return sessionId;
+    }
+   /* @Override
+    public Session readSession(Serializable sessionId) throws UnknownSessionException {
+        Session session = super.getCachedSession(sessionId);
+        log.warn("heRedis--- readSession:-------{}",session);
+        if(session==null){
+            session=  this.doReadSession(sessionId);
         }
+        return session;
+    }*/
+    @Override
+    protected Session doReadSession(Serializable serializable) {
+        Session session = null;
+        try {
+            session = session = redisTemplate.opsForValue().get(this.sessionKeyPrefix + serializable);
+            if (session != null) {
+                redisTemplate.expire(this.sessionKeyPrefix + serializable, session.getTimeout(), TimeUnit.MILLISECONDS);//刷新
+                log.info("sessionId {} name {} 被读取", serializable, session.getClass().getName());
+            }
+        } catch (Exception e) {
+            log.warn("读取Session失败", e);
+        }
+        log.warn("heRedis--- doReadSession:-------{}",serializable);
+        return session;
+    }
+
+    @Override
+    protected void doUpdate(Session session) {
+        if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
+            return; //如果会话过期/停止 没必要再更新了
+        }
+        log.warn("heRedis--- doUpdate:-------{}",session);
+        redisTemplate.boundValueOps(this.sessionKeyPrefix + session.getId()).set(session, session.getTimeout(), TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    protected void doDelete(Session session) {
+        log.warn("heRedis--- doDelete:-------{}",session);
         redisTemplate.delete(this.sessionKeyPrefix + session.getId());
     }
 
@@ -57,35 +93,7 @@ public class CustomRedisSessionDao extends AbstractSessionDAO {
             Session session = redisTemplate.opsForValue().get(key);
             sessions.add(session);
         }
+        log.warn("heRedis--- getActiveSessions:-------{}",sessions);
         return sessions;
-    }
-
-    @Override
-    protected Serializable doCreate(Session session) {
-        Serializable sessionId = this.generateSessionId(session);
-        this.assignSessionId(session, sessionId);
-
-        // 刷新内存相同逻辑
-        this.update(session);
-        return sessionId;
-    }
-
-    @Override
-    protected Session doReadSession(Serializable sessionId) {
-        if (null == sessionId) {
-            log.info("session or sessionId is null");
-            return null;
-        }
-        Session session = redisTemplate.opsForValue().get(this.sessionKeyPrefix + sessionId);
-        return session;
-    }
-
-    /**
-     * 需要spring注入，所以public访问权限
-     *
-     * @param sessionKeyPrefix
-     */
-    public void setSessionKeyPrefix(String sessionKeyPrefix) {
-        this.sessionKeyPrefix = sessionKeyPrefix;
     }
 }

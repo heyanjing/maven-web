@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
-<!--凭证匹配器-->
-    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+    <!--凭证匹配器
+        org.apache.shiro.authc.credential.HashedCredentialsMatcher
+        com.he.spring.shiro.credentials.LimitHashedCredentialsMatcher
+    -->
+    <bean id="credentialsMatcher" class="com.he.spring.shiro.credentials.LimitHashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="MD5"/>
         <property name="hashIterations" value="1024"/>
+        <property name="person" ref="p1"/>
+        <property name="customRedisCacheManager" ref="customRedisCacheManager"/>
     </bean>
-<!--自定义realm-->
-    <bean id="shiroRealm" class="com.he.spring.shiro.ShiroRealm">
+    <!--自定义realm-->
+    <bean id="shiroRealm" class="com.he.spring.shiro.realm.ShiroRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <property name="customRedisCacheManager" ref="customRedisCacheManager"/>
     </bean>
-
 
 
     <!-- 会话Cookie模板 -->
@@ -40,6 +45,8 @@
     <!-- 基于Redis -->
     <bean id="customRedisSessionDao" class="com.he.spring.shiro.redis.CustomRedisSessionDao">
         <property name="sessionKeyPrefix" value="web-session-"/>
+        <property name="redisTemplate" ref="redisTemplate"/>
+        <property name="activeSessionsCacheName" value="shiroSessionCache"/>
         <!-- 会话ID生成器 默认就是使用该生成器
             <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
             <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
@@ -49,15 +56,18 @@
         <property name="cacheKeyPrefix" value="web-cache-"/>
     </bean>
 
-    <!-- 会话验证调度器 -->
+
+    <!-- 会话验证调度器
+        用于定期的验证会话是否已过期，如果过期将停止会话；
+    -->
     <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
-        <property name="sessionValidationInterval" value="10800000"/>
+        <property name="sessionValidationInterval" value="600000"/>
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
 
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="globalSessionTimeout" value="10800000"/>
+        <property name="globalSessionTimeout" value="600000"/>
         <property name="deleteInvalidSessions" value="true"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
@@ -66,16 +76,27 @@
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
     </bean>
 
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManager" ref="ehcacheManager"/>
+    </bean>
+
     <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="shiroRealm"/>
         <property name="sessionManager" ref="sessionManager"/>
-        <property name="cacheManager" ref="customRedisCacheManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
         <property name="rememberMeManager" ref="rememberMeManager"/>
     </bean>
 
 
-
+    <bean id="kickoutSessionControlFilter"
+          class="com.he.spring.shiro.filter.KickoutSessionControlFilter">
+        <property name="cacheManager" ref="customRedisCacheManager"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="kickoutAfter" value="false"/>
+        <property name="maxSession" value="1"/>
+        <property name="kickoutUrl" value="/"/>
+    </bean>
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
@@ -83,10 +104,15 @@
         <property name="loginUrl" value="/"/>
         <!--访问未授权的路径时跳转的页面-->
         <property name="unauthorizedUrl" value="/error/403"/>
+        <property name="filters">
+            <util:map>
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+            </util:map>
+        </property>
         <!--
         配置那些路径需要那些权限 ,依次匹配，匹配成功就不会再匹配
         anon    可以匿名访问
-        authc   必须认证后在访问（登陆）
+        authc   必须认证后在访问（登陆） 就算rememberMe存在也会跳转至登陆页面
         logout  注销,会自动清除shiro的缓存
         -->
         <property name="filterChainDefinitions">
@@ -94,14 +120,15 @@
                 /static/**=anon
                 /kaptcha/**=anon
                 /=anon
-                /user/**=anon
-
+                /user/login=anon
+                /user/logout*=logout
+                /user**=kickout
 
 
                 /page1=roles[user1]
                 /page2=roles[user2]
                 /page3=user
-                /**=authc
+                /person/**=kickout
                 <!--
                 /user/**=anon
                 /person/**=anon

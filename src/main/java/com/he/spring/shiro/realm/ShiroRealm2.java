@@ -1,4 +1,4 @@
-package com.he.spring.shiro;
+package com.he.spring.shiro.realm;
 
 import com.he.spring.dao.UserDao;
 import com.he.spring.entity.User;

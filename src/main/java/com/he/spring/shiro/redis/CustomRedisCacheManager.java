@@ -6,9 +6,9 @@ package com.he.spring.shiro.redis;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
-import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.util.Destroyable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
@@ -17,12 +17,12 @@ import java.util.Set;
 /**
  * @author 张永强
  */
-public class CustomRedisCacheManager implements CacheManager, Destroyable {
-
+public class CustomRedisCacheManager implements ICustomRedisCacheManager {
+    private static final Logger log            = LoggerFactory.getLogger(CustomRedisCacheManager.class);
     /**
      * redis cache key的前缀
      */
-    private String cacheKeyPrefix="web-cache-";
+    private              String cacheKeyPrefix = "web-cache-";
 
     @Resource
     private RedisTemplate<String, Session> redisTemplate;
@@ -38,7 +38,8 @@ public class CustomRedisCacheManager implements CacheManager, Destroyable {
 
     @Override
     public <K, V> Cache<K, V> getCache(String name) throws CacheException {
-        return new CustomRedisCache<K, V>(this.cacheKeyPrefix + name + ":");
+        log.warn("缓存起效");
+        return new CustomRedisCache(this.cacheKeyPrefix + name + ":");
     }
 
     /**

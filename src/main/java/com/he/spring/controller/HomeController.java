@@ -11,11 +11,9 @@ import com.he.spring.entity.Person;
 import com.he.spring.shiro.util.Shiros;
 import com.he.spring.util.Https;
 import com.he.spring.util.Jsons;
-import com.he.spring.util.Strings;
 import com.he.spring.util.Webs;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,18 +33,22 @@ import java.util.Map;
 @SessionAttributes(names = "model")
 public class HomeController {
     private static final Logger log = LoggerFactory.getLogger(HomeController.class);
-    @Autowired
-    private Cache  userCheatCache;// MEINFO:2017/4/21 9:39 spring单独使用ehcache  配置文件spring-base-cache.xml
-    @Autowired
-    private Cache  mobileCodeCache;
+    //@Autowired
+    //private Cache  userCheatCache;// MEINFO:2017/4/21 9:39 spring单独使用ehcache  配置文件spring-base-cache.xml
+    //@Autowired
+    //private Cache  mobileCodeCache;
     @Autowired
     private Person p1;
     @Autowired
     private Person p2;
 
-    @RequiresRoles(value = {"user1","user2"})
+    @RequiresRoles(value = {"user2"})//判断角色
     @RequestMapping(value = {"/", ""})
     public String home(Model model, HttpServletRequest request) {
+        log.warn("权限检查{}",Shiros.getSubject().isPermitted("permission1"));//检查权限
+        Subject subject = Shiros.getSubject();
+        log.warn("授权登陆{}",subject.isAuthenticated());
+        log.warn("记住我{}",subject.isRemembered());
         /*System.out.println(p1.getName());
         System.out.println(p2.getName());*/
         log.info("去home的页面");
@@ -91,27 +93,27 @@ public class HomeController {
 
     @RequestMapping(value = {"/upload"})
     public String upload() {
-        Element existEl = mobileCodeCache.get("e2");
+        /*Element existEl = mobileCodeCache.get("e2");
         if (existEl == null) {
             System.err.println("锤子 ---- 空的");
         } else {
             System.err.println(Strings.toString(existEl.getObjectValue()));
         }
         Element el = new Element("e2", "窝草2");
-        mobileCodeCache.put(el);
+        mobileCodeCache.put(el);*/
         return "/upload/upload";
     }
 
     @RequestMapping(value = {"/xx"}, method = RequestMethod.POST)
     public String xx() {
-        Element existEl = mobileCodeCache.get("e2");
+       /* Element existEl = mobileCodeCache.get("e2");
         if (existEl == null) {
             System.err.println("锤子 ---- 空的");
         } else {
             System.err.println(Strings.toString(existEl.getObjectValue()));
         }
         Element el = new Element("e2", "窝草2");
-        mobileCodeCache.put(el);
+        mobileCodeCache.put(el);*/
         return "/upload/upload";
     }
 
