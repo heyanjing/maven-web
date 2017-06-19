@@ -1,4 +1,25 @@
 $(function () {
+    $('#test').on('click',function () {
+        $.ajax( {
+            url:CTX+'/person/pageByName?name=name1&pageNumber=1&pageSize=2',
+            type:'post',
+            dataType : "json",
+            success : function(data, textStatus, jqXHR) {
+                console.log(data);
+            },
+            error : function(data, textStatus, jqXHR) {
+                console.log("错误");
+                console.log(data);
+                console.log(textStatus);
+                console.log(jqXHR);
+                if(data.status===403){
+                    window.location.href=CTX;
+                }
+            }
+
+        });
+    });
+
    /*
    跨域测试
    $.ajax( {

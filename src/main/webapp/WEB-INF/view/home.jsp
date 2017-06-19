@@ -39,5 +39,6 @@
             ${PAG }
         </div>
         <div id="demo"></div>
+        <input id="test" type="button" value="ajax测试"/>
     </body>
 </html>

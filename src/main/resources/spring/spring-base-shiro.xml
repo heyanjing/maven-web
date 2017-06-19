@@ -32,7 +32,7 @@
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="rememberMe"/>
         <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="36000000"/>
+        <property name="maxAge" value="60000"/>
     </bean>
     <!-- rememberMe管理器 -->
     <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
@@ -61,13 +61,13 @@
         用于定期的验证会话是否已过期，如果过期将停止会话；
     -->
     <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
-        <property name="sessionValidationInterval" value="600000"/>
+        <property name="sessionValidationInterval" value="60000"/>
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
 
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="globalSessionTimeout" value="600000"/>
+        <property name="globalSessionTimeout" value="60000"/>
         <property name="deleteInvalidSessions" value="true"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
@@ -89,14 +89,15 @@
     </bean>
 
 
-    <bean id="kickoutSessionControlFilter"
-          class="com.he.spring.shiro.filter.KickoutSessionControlFilter">
+    <bean id="kickoutSessionControlFilter" class="com.he.spring.shiro.filter.KickoutSessionControlFilter">
         <property name="cacheManager" ref="customRedisCacheManager"/>
         <property name="sessionManager" ref="sessionManager"/>
         <property name="kickoutAfter" value="false"/>
         <property name="maxSession" value="1"/>
         <property name="kickoutUrl" value="/"/>
     </bean>
+
+    <bean id="ajaxFormAuthenticationFilter" class="com.he.spring.shiro.filter.AjaxFormAuthenticationFilter" />
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
@@ -107,6 +108,7 @@
         <property name="filters">
             <util:map>
                 <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+                <entry key="ajaxAuthc" value-ref="ajaxFormAuthenticationFilter"/>
             </util:map>
         </property>
         <!--
@@ -119,6 +121,7 @@
             <value>
                 /static/**=anon
                 /kaptcha/**=anon
+                /code/**=anon
                 /=anon
                 /user/login=anon
                 /user/logout*=logout
@@ -128,7 +131,8 @@
                 /page1=roles[user1]
                 /page2=roles[user2]
                 /page3=user
-                /person/**=kickout
+                /person/**=kickout,ajaxAuthc
+                /**=ajaxAuthc
                 <!--
                 /user/**=anon
                 /person/**=anon
