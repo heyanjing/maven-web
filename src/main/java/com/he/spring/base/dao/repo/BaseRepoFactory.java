@@ -1,4 +1,4 @@
-package com.he.spring.base.dao;
+package com.he.spring.base.dao.repo;
 
 import java.io.Serializable;
 

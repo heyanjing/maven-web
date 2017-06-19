@@ -1,13 +1,10 @@
-package com.he.spring.base.dao;
+package com.he.spring.base.dao.hibernate;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
-
+import com.google.common.collect.Maps;
+import com.he.spring.Constants;
+import com.he.spring.base.util.Querys;
+import com.he.spring.util.Reflections;
+import com.he.spring.util.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -21,11 +18,12 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformationSuppo
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Maps;
-import com.he.spring.Constants;
-import com.he.spring.base.util.Querys;
-import com.he.spring.util.Reflections;
-import com.he.spring.util.Strings;
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * dao的实现类可以继承该类从而使实现类拥有更多的方法

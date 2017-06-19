@@ -12,13 +12,11 @@
      ${env}.properties
      -->
     <context:property-placeholder location="classpath*:/config/config.properties"/>
-
     <!-- 要扫描的包 -->
     <context:component-scan base-package="com.he.spring">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
-
     <!-- 配置数据源 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="user" value="${jdbc.user}"/>
@@ -38,11 +36,39 @@
         <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->
         <property name="acquireIncrement" value="5"/>
     </bean>
+    <bean id="dataSource2" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="sa"/>
+        <property name="password" value="000000"/>
+        <property name="driverClass" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+        <property name="jdbcUrl" value="jdbc:log4jdbc:jtds:sqlserver://localhost:1433/springweb_uuid;charset=UTF-8"/>
+        <!-- 请求超时时间 -->
+        <property name="checkoutTimeout" value="30000"/>
+        <!-- 每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 -->
+        <property name="idleConnectionTestPeriod" value="30"/>
+        <!-- 连接数据库连接池最大空闲时间 -->
+        <property name="maxIdleTime" value="30"/>
+        <!-- 连接池初始化连接数 -->
+        <property name="initialPoolSize" value="5"/>
+        <property name="minPoolSize" value="5"/>
+        <property name="maxPoolSize" value="20"/>
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->
+        <property name="acquireIncrement" value="5"/>
+    </bean>
 
+    <bean id="dynamicDataSource" class="com.he.spring.multidatasource.DynamicDataSource">
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry value-ref="dataSource" key="mysql"></entry>
+                <entry value-ref="dataSource2" key="sqlserver"></entry>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="dataSource">
+        </property>
+    </bean>
 
     <!-- 配置 JPA 的 EntityManagerFactory -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="dynamicDataSource"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
         </property>
@@ -103,6 +129,16 @@
         -->
     </aop:config>
 
+    <!--配置数据源的aop-->
+    <bean id="dataSourceInterceptor" class="com.he.spring.multidatasource.DataSourceInterceptor"/>
+    <aop:config>
+        <aop:pointcut id="daoOne" expression="execution(* com.he.spirng..*.*(..))"/>
+        <aop:pointcut id="daoTwo" expression="execution(* com.he.sqlserver..*.*(..))"/>
+        <aop:aspect id="dataSourceAspect" ref="dataSourceInterceptor">
+            <aop:before pointcut-ref="daoOne" method="setdataSourceMysql"/>
+            <aop:before pointcut-ref="daoTwo" method="setdataSourceSqlserver"/>
+        </aop:aspect>
+    </aop:config>
 
     <!--
     // MEINFO:2017/6/13 14:59 开启aop注解支持 激活自动代理功能  只能以非controller层为切入点

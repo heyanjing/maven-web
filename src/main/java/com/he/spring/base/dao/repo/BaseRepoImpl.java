@@ -1,4 +1,4 @@
-package com.he.spring.base.dao;
+package com.he.spring.base.dao.repo;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
+import com.he.spring.base.dao.jdbc.JdbcTemplate;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
@@ -17,8 +18,10 @@ public class BaseRepoImpl<T, ID extends Serializable> extends SimpleJpaRepositor
 	private final Class<T>		entityClass;
 	private final String		entityName;
 
-	protected DataSource		dataSource;
-	protected JdbcTemplate		jdbcTemplate;
+	protected DataSource   dataSource;
+	protected JdbcTemplate jdbcTemplate;
+
+
 
 	public BaseRepoImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
 		super(entityInformation, entityManager);

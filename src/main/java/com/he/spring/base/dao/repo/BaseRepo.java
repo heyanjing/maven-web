@@ -1,5 +1,6 @@
-package com.he.spring.base.dao;
+package com.he.spring.base.dao.repo;
 
+import com.he.spring.base.dao.jdbc.JdbcTemplate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;

@@ -1,7 +1,7 @@
 package com.he.spring.dao.impl;
 
 import com.google.common.collect.Maps;
-import com.he.spring.base.dao.BaseJdbcDao;
+import com.he.spring.base.dao.jdbc.BaseJdbcDao;
 import com.he.spring.dao.custom.DogCustomDao;
 import com.he.spring.entity.Dog;
 import org.springframework.data.domain.Page;

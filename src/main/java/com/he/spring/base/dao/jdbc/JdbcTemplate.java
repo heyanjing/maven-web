@@ -1,4 +1,4 @@
-package com.he.spring.base.dao;
+package com.he.spring.base.dao.jdbc;
 
 import java.util.List;
 import java.util.Map;

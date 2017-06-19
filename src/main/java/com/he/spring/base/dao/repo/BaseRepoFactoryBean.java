@@ -1,4 +1,4 @@
-package com.he.spring.base.dao;
+package com.he.spring.base.dao.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;

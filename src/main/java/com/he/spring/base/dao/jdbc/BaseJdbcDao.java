@@ -1,13 +1,6 @@
-package com.he.spring.base.dao;
+package com.he.spring.base.dao.jdbc;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
-
+import com.he.spring.util.Reflections;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
@@ -15,11 +8,16 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.he.spring.util.Reflections;
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * BaseRepositoryCustomDao 如果是多数据源的项目，则子类继承并注入不同的em 必须将注解@PersistenceContext放在set方法上，若注解在field上会报错说有多个entityManager entityManager默认名称为em
- * 
+ *
  * @PersistenceContext(unitName = "em") public void setEntityManager(EntityManager entityManager) { this.entityManager = entityManager; }
  */
 @Transactional
@@ -35,8 +33,8 @@ public class BaseJdbcDao<T> {
 	protected String						entityIdName;
 
 	// Data Info
-	protected DataSource					dataSource;
-	protected JdbcTemplate					jdbcTemplate;
+	protected DataSource   dataSource;
+	protected JdbcTemplate jdbcTemplate;
 
 	@PostConstruct
 	public void postConstruct() {
@@ -82,7 +80,7 @@ public class BaseJdbcDao<T> {
 	}
 
 	/*----------------------------------------------------------------------------------------
-	|            find/page by sql           
+	|            find/page by sql
 	========================================================================================*/
 	public List<T> findBySql(String sql) {
 		return getJdbcTemplate().find(sql, this.entityClass);
@@ -109,7 +107,7 @@ public class BaseJdbcDao<T> {
 	}
 
 	/*----------------------------------------------------------------------------------------
-	|            find/page by sql and entityClass           
+	|            find/page by sql and entityClass
 	========================================================================================*/
 	public <E> List<E> findBySql(String sql, Class<E> entityClass) {
 		return getJdbcTemplate().find(sql, entityClass);
@@ -136,7 +134,7 @@ public class BaseJdbcDao<T> {
 	}
 
 	/*----------------------------------------------------------------------------------------
-	|            find/page by sql and RowMapper           
+	|            find/page by sql and RowMapper
 	========================================================================================*/
 	public <E> List<E> findBySql(String sql, RowMapper<E> mapper) {
 		return getJdbcTemplate().find(sql, mapper);

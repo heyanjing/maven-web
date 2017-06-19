@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 
 import com.google.common.collect.Maps;
-import com.he.spring.base.dao.BaseHibernateDao;
+import com.he.spring.base.dao.hibernate.BaseHibernateDao;
 import com.he.spring.bean.PersonBean;
 import com.he.spring.dao.custom.PersonCustomDao;
 import com.he.spring.entity.Person;
