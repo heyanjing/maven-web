@@ -36,6 +36,8 @@ ${session}
     <a href="/spring/user/reg?userName=何彦静&password=123456">注册</a>
     <a href="/spring/user/logout">注销</a>
     ${result}
+<img src="${CTX}/code/gif"/>
+<img src="${CTX}/code/jpg"/>
 <script type="text/javascript">
 </script>
 
