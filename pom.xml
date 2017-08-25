@@ -310,12 +310,13 @@
                 <artifactId>commons-codec</artifactId>
                 <version>${base64.version}</version>
             </dependency>
-            <!-- 验证码 -->
+            <!-- 验证码
             <dependency>
                 <groupId>com.google.code.kaptcha</groupId>
                 <artifactId>kaptcha</artifactId>
                 <version>${kaptcha.version}</version>
             </dependency>
+            -->
             <!--模板 -->
             <dependency>
                 <groupId>org.sitemesh</groupId>
@@ -611,9 +612,11 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
+        <!-- 验证码 -->
         <dependency>
             <groupId>com.google.code.kaptcha</groupId>
             <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
         </dependency>
         <!-- sitemesh3 访问jquery时后台会报错 <dependency> <groupId>org.sitemesh</groupId>
             <artifactId>sitemesh</artifactId> </dependency> -->
@@ -706,6 +709,7 @@
             <version>1.10.2</version>
         </dependency>
 
+
         <!--spring session共享
         <dependency>
             <groupId>org.springframework.session</groupId>
@@ -741,6 +745,11 @@
         </dependency>
         -->
         <!-- end -->
+        <dependency>
+            <groupId>cn.songxinqiang</groupId>
+            <artifactId>com.baidu.ueditor</artifactId>
+            <version>1.1.2-offical</version>
+        </dependency>
     </dependencies>
 
     <!--资源库-->

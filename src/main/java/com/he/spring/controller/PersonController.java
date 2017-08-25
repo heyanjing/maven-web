@@ -147,6 +147,7 @@ public class PersonController {
     //@CrossOrigin(origins ={"http://localhost:8909"} )//表示允许这个网站进行跨域访问这个url
     public Page<Person> pageByName(String name, String selectedIds, @RequestParam(name = "pageNumber", defaultValue = "1") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "20") Integer pageSize) {
         Page<Person> page = this.personService.pageByName(name, selectedIds, pageNumber, pageSize);
+        Page<Person> page2 = this.personService.pageByName(name, selectedIds, pageNumber, pageSize);
         //if(true){
         //	throw  new RuntimeException("手动抛得异常");
         //}

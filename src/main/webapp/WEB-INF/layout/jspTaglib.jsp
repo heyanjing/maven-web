@@ -21,5 +21,6 @@
  <c:set var="RENDER" value="${LIBS}/jsrender" />
  <c:set var="BMAP" value="${LIBS}/bmap" />
  <c:set var="PDF" value="${STATIC}/pdf" />
+ <c:set var="UE" value="${LIBS}/ueditor" />
+ <c:set var="FLOW" value="${LIBS}/flow" />
  <c:set var="V" value="<%=Constants.VERSION%>" />
- 

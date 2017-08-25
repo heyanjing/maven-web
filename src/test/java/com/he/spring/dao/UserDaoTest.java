@@ -23,7 +23,7 @@ public class UserDaoTest {
         List<User> list = userDao.findByName("何彦静");
         System.out.println(list);
 
-        
+
     }
 
 }

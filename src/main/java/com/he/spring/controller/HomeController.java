@@ -71,8 +71,16 @@ public class HomeController {
 //		return "/page_jsrender2";
 //		return "/handlebars";
 //		return "/select2";
-        return "/home";
+//        return "/home";
 //		return "/print";
+//        return "/ueditor";
+        return "/flow";
+    }
+    @RequestMapping(value = {"/saveUE"})
+    @ResponseBody
+    public Result saveUE(){
+        Result result = Results.success();
+        return result;
     }
 
     /**
