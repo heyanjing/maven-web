@@ -73,8 +73,8 @@ public class HomeController {
 //		return "/select2";
 //        return "/home";
 //		return "/print";
-//        return "/ueditor";
-        return "/flow";
+        return "/ueditor";
+//        return "/flow";
     }
     @RequestMapping(value = {"/saveUE"})
     @ResponseBody

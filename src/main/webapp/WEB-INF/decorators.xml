@@ -2,6 +2,7 @@
 <decorators>
 	<excludes>
 		<pattern>/static**</pattern>
+		<pattern>/upload**</pattern>
 		<!--<pattern>/home**</pattern>-->
 	</excludes>
 	<decorator name="default" page="/WEB-INF/layout/decorator/home2.jsp">

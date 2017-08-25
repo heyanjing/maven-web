@@ -1,3 +1,9 @@
+
+var ue = UE.getEditor('myFormDesign');
+
+
+
+/*
 var leipiEditor = UE.getEditor('myFormDesign',{
     //allowDivTransToP: false,//阻止转换div 为p
     toolleipi:true,//是否显示，设计器的 toolbars
@@ -18,15 +24,15 @@ var leipiEditor = UE.getEditor('myFormDesign',{
 });
 
 var leipiFormDesign = {
-    /*执行控件*/
+    /!*执行控件*!/
     exec : function (method) {
         leipiEditor.execCommand(method);
     },
-    /*
+    /!*
      Javascript 解析表单
      template 表单设计器里的Html内容
      fields 字段总数
-     */
+     *!/
     parse_form:function(template,fields)
     {
         //正则  radios|checkboxs|select 匹配的边界 |--|  因为当使用 {} 时js报错
@@ -75,8 +81,8 @@ var leipiFormDesign = {
                 oField[attr] = val;
                 parse_attr.push(oField);
             })
-            /*alert(JSON.stringify(parse_attr));return;*/
-            if(tag =='checkboxs') /*复选组  多个字段 */
+            /!*alert(JSON.stringify(parse_attr));return;*!/
+            if(tag =='checkboxs') /!*复选组  多个字段 *!/
             {
                 plugin = p0;
                 plugin = plugin.replace('|-','');
@@ -141,7 +147,7 @@ var leipiFormDesign = {
 
             }else if(name)
             {
-                if(tag =='radios') /*单选组  一个字段*/
+                if(tag =='radios') /!*单选组  一个字段*!/
                 {
                     plugin = p0;
                     plugin = plugin.replace('|-','');
@@ -201,13 +207,13 @@ var leipiFormDesign = {
         });
         return JSON.stringify(parse_form);
     },
-    /*type  =  save 保存设计 versions 保存版本  close关闭 */
+    /!*type  =  save 保存设计 versions 保存版本  close关闭 *!/
     fnCheckForm : function ( type ) {
         if(leipiEditor.queryCommandState( 'source' ))
             leipiEditor.execCommand('source');//切换到编辑模式才提交，否则有bug
 
         if(leipiEditor.hasContents()){
-            leipiEditor.sync();/*同步内容*/
+            leipiEditor.sync();/!*同步内容*!/
 
             // alert("你点击了保存,这里可以异步提交，请自行处理....");
             // return false;
@@ -241,13 +247,13 @@ var leipiFormDesign = {
             //             win_parse.focus();
             //         }
             //
-            //         /*
+            //         /!*
             //          if(data.success==1){
             //          alert('保存成功');
             //          $('#submitbtn').button('reset');
             //          }else{
             //          alert('保存失败！');
-            //          }*/
+            //          }*!/
             //     }
             // });
 
@@ -257,20 +263,20 @@ var leipiFormDesign = {
             return false;
         }
     } ,
-    /*预览表单*/
+    /!*预览表单*!/
     fnReview : function (){
         if(leipiEditor.queryCommandState( 'source' ))
-            leipiEditor.execCommand('source');/*切换到编辑模式才提交，否则部分浏览器有bug*/
+            leipiEditor.execCommand('source');/!*切换到编辑模式才提交，否则部分浏览器有bug*!/
 
         if(leipiEditor.hasContents()){
-            leipiEditor.sync();       /*同步内容*/
+            leipiEditor.sync();       /!*同步内容*!/
 
 //                    alert("你点击了预览,请自行处理....");
 //                    return false;
             //--------------以下仅参考-------------------------------------------------------------------
 
 
-            /*设计form的target 然后提交至一个新的窗口进行预览*/
+            /!*设计form的target 然后提交至一个新的窗口进行预览*!/
             document.saveform.target="mywin";
             window.open('','mywin',"menubar=0,toolbar=0,status=0,resizable=1,left=0,top=0,scrollbars=1,width=" +(screen.availWidth-10) + ",height=" + (screen.availHeight-50) + "\"");
 
@@ -282,3 +288,4 @@ var leipiFormDesign = {
         }
     }
 };
+*/

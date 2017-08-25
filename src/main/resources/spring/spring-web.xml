@@ -10,6 +10,7 @@
     </context:component-scan>
     <!--处理静态资源 两者选其一都可以 mvc:resources更好点 <mvc:default-servlet-handler /> -->
     <mvc:resources mapping="/static/**" location="/static/"/>
+    <mvc:resources mapping="/upload/**" location="/upload/"/>
     <!--启用SpringMVC的注解功能,它会自动注册HandlerMapping、HandlerAdapter、ExceptionResolver的相关实例 -->
     <mvc:annotation-driven/>
     <!--springmvc的是图解析器 -->
