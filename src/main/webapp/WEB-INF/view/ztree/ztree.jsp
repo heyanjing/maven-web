@@ -7,11 +7,15 @@
         <link rel="stylesheet" type="text/css" href="${LIBS}/ztree/css/zTreeStyle/zTreeStyle.css">
     </head>
     <body>
+        ${a.b}
+
+            <c:if test="${not empty  a and a.b=='xx' }">
+                selected="selected"
+            </c:if>
         <div>
             <ul id="treeDemo" class="ztree"></ul>
         </div>
         <input id="btn" type="button" value="按钮" />
-        <script type="text/javascript" src="${LIBS}/ztree/js/jquery.ztree.all.js"></script>
         <script type="text/javascript" src="${JS}/ztree/ztree.js"></script>
     </body>
 </html>

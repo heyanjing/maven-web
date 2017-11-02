@@ -67,14 +67,16 @@ public class HomeController {
 		userCheatCache.put(el);
 		model.addAttribute("model", "窝草");
 		System.err.println("b");*/
+		model.addAttribute("xx","xx");
 //		return "/ztree/ztree";/// ztree/ztree
 //		return "/page_jsrender2";
 //		return "/handlebars";
 //		return "/select2";
 //        return "/home";
-//		return "/print";
-        return "/ueditor";
+		return "/print";
+//        return "/ueditor";
 //        return "/flow";
+//        return  "/multiselect2";
     }
     @RequestMapping(value = {"/saveUE"})
     @ResponseBody

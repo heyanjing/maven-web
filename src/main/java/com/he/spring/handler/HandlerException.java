@@ -1,16 +1,5 @@
 package com.he.spring.handler;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.shiro.authz.AuthorizationException;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
-
 import com.he.spring.Constants;
 import com.he.spring.util.Exceptions;
 import com.he.spring.util.Jsons;
@@ -18,11 +7,26 @@ import com.he.spring.util.Logs;
 import com.he.spring.util.Servlets;
 import com.he.spring.util.Strings;
 import com.he.spring.util.Webs;
+import org.apache.shiro.authz.AuthorizationException;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class HandlerException extends SimpleMappingExceptionResolver {
     private static final int    ERROR_STATUSCODE           = 500;
     private static final String ERROR_MSG_500              = "服务器忙碌,请稍后再试!";
     private static final String ERROR_MSG_DEFAULT_NO_PERMS = "对不起，您没有权限访问该资源!";
+
+
+    @Override
+    protected void prepareResponse(Exception ex, HttpServletResponse response) {
+        super.prepareResponse(ex, response);
+    }
 
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {

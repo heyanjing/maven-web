@@ -23,4 +23,5 @@
  <c:set var="PDF" value="${STATIC}/pdf" />
  <c:set var="UE" value="${LIBS}/ueditor" />
  <c:set var="FLOW" value="${LIBS}/flow" />
+ <c:set var="ZTREE" value="${LIBS}/ztree" />
  <c:set var="V" value="<%=Constants.VERSION%>" />
